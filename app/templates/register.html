@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Регистрация - EISALS{% endblock %}
+
+{% block content %}
+<div class="w-full flex justify-center py-16 mt-[20px]">
+    <form
+        method="POST"
+        action="/api/register"
+        enctype="multipart/form-data"
+        class="w-[80vw] max-w-[1000px] flex gap-[40px] border-[5px] border-white rounded-[30px] p-[40px]"
+    >
+
+        <!-- ЛЕВАЯ ЧАСТЬ -->
+        <div class="flex flex-col items-center gap-[20px] w-[300px] shrink-0">
+            <img
+                id="ava-log"
+                src="{{ url_for('static', path='users/avas/ava.png') }}"
+                class="w-[200px] h-[200px] object-cover border-[4px] border-white rounded-[20px]"
+            >
+
+            <input
+                type="file"
+                id="avatarka"
+                name="avatar"
+                accept="image/*"
+                hidden
+            >
+            <label
+                for="avatarka"
+                class="cursor-pointer px-[30px] py-[12px] text-[20px] border-[3px] border-white rounded-[40px] hover:bg-white hover:text-[#070F2B] transition"
+            >
+                Загрузить аватарку
+            </label>
+
+            <div class="flex flex-col gap-[15px] text-[18px]">
+                <label class="flex gap-[10px] items-start">
+                    <input type="checkbox" name="agree_conf" required>
+                    <span>
+                        Согласен с обработкой<br>
+                        <a href="documents/agreement" class="underline">персональных данных</a>
+                    </span>
+                </label>
+
+                <label class="flex gap-[10px] items-start">
+                    <input type="checkbox" name="agree_news" checked>
+                    <span>
+                        Согласен получать новости<br>
+                        и предложения от EISALS
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <!-- ПРАВАЯ ЧАСТЬ -->
+        <div class="flex-1 flex flex-col gap-[25px] text-[32px]">
+            <div>
+                <p>Имя:</p>
+                <input
+                    type="text"
+                    name="username"
+                    required
+                    placeholder="Имя пользователя"
+                    class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
+                >
+            </div>
+
+            <div class="flex gap-[20px]">
+                <div class="flex-1">
+                    <p>Почта:</p>
+                    <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="Почта"
+                        class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
+                    >
+                </div>
+
+                <div class="flex-1">
+                    <p>Телефон:</p>
+                    <input
+                        type="tel"
+                        name="phone"
+                        required
+                        placeholder="+7XXXXXXXXXX"
+                        pattern="\+7\d{10}"
+                        class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
+                    >
+                </div>
+            </div>
+
+            <div>
+                <p>Пароль:</p>
+                <input
+                    type="password"
+                    name="password"
+                    required
+                    placeholder="Пароль"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="self-center mt-[20px] px-[60px] py-[15px] text-[28px] border-[4px] border-white rounded-[50px] hover:bg-white hover:text-[#070F2B] transition"
+            >
+                Зарегистрироваться
+            </button>
+
+            <p class="text-[18px] text-center text-gray-300">
+                Есть аккаунт?
+                <a href="/login" class="underline text-white">Войти</a>
+            </p>
+        </div>
+    </form>
+</div>
+
+<script>
+const input = document.getElementById("avatarka");
+const img = document.getElementById("ava-log");
+
+input.addEventListener("change", () => {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = e => img.src = e.target.result;
+    reader.readAsDataURL(file);
+});
+</script>
+{% endblock %}
