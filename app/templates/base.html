@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-full">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{% block title %}Главная{% endblock %}</title>
+<link rel="icon" href="{{ url_for('static', path='images/favicon.png') }}" type="image/png" />
+
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+
+
+<style>
+body { font-family: 'Jost', Arial, sans-serif; }
+</style>
+</head>
+<body class="bg-[#070F2B] text-white text-[36px] leading-[1.2] min-h-screen flex flex-col items-center overflow-x-hidden">
+
+
+{% block header %}
+<header class="relative flex items-center justify-between w-[80vw] px-[30px] mt-[13px] max-h-[15vh]">
+<a href="/feed" class="text-[48px] hover:opacity-80">Графики</a>
+
+
+<a href="/" class="absolute left-1/2 -translate-x-1/2 translate-y-[45px]">
+<img src="{{ url_for('static', path='images/logo.png') }}" alt="Логотип" class="w-[170px] h-[170px]" />
+</a>
+
+
+<a href="/cab" class="text-[48px] hover:opacity-80">Кабинет</a>
+</header>
+<div class="w-[80vw] h-[10px] bg-white rounded mb-[30px]"></div>
+{% endblock %}
+
+
+<main class="flex-grow w-full flex flex-col items-center">
+{% block content %}{% endblock %}
+</main>
+
+
+{% block footer %}
+<div class="w-full h-[20px] bg-[#000412] mt-[20px]"></div>
+<footer class="w-full bg-[#04091A]">
+<div class="flex gap-[40px] w-full px-[50px] py-[40px] box-border">
+<img src="{{ url_for('static', path='images/big_logo.png') }}" class="w-[300px] h-auto" />
+
+
+<div class="flex flex-col items-center justify-center gap-[10px] flex-1 text-center">
+<p class="text-[48px]">Спасибо за пользование сайтом!</p>
+<p class="text-[36px]">Связь:</p>
+<div class="flex gap-[20px] justify-center">
+<a target="_blank" href="https://discordapp.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/discord.png') }}"></a>
+<a target="_blank" href="https://t.me"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/tg.png') }}"></a>
+<a target="_blank" href="https://github.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/git.png') }}"></a>
+<a target="_blank" href="https://mail.google.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/gmail.png') }}"></a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+{% endblock %}
+
+
+</body>
+</html>

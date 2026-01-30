@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Главная - EISALS{% endblock %}
+
+
+{% block content %}
+<section class="flex justify-between items-center w-[80vw] gap-[20px] mt-[50px]">
+<div class="w-1/2 flex flex-col items-center gap-[10px]">
+<p class="text-[48px]">Достигайте новые высоты</p>
+<p class="text-[48px]">С EISALS</p>
+</div>
+<img src="{{ url_for('static', path='images/graph.png') }}" class="w-[40%]" />
+</section>
+
+
+<div class="mt-[5vh]">
+<a href="/login" class="px-[40px] py-[15px] text-[48px] border-[9px] border-white rounded-[100px] hover:bg-white hover:text-[#070F2B] transition">Начать</a>
+</div>
+
+
+<section class="flex flex-col items-center mt-[80px]">
+<p class="text-[48px] relative after:content-[''] after:absolute after:left-[-15px] after:bottom-[-6px] after:w-[calc(100%+30px)] after:h-[3px] after:bg-white">О нас</p>
+
+
+<div class="grid grid-cols-2 gap-x-[40px] gap-y-[20px] w-[80vw] text-[36px] mt-[40px]">
+<div class="p-[20px] flex justify-center"><img src="{{ url_for('static', path='images/python.png') }}" class="h-[96px]"></div>
+<div class="p-[20px]">Мы лучший и единственный сервис, что позволяет анализировать среду госзакупок с удобством для пользователя. Графики, уже обученные
+математические модели доступны вам! </div>
+
+
+<div class="p-[20px] flex justify-center"><img src="{{ url_for('static', path='images/scikit-learn.png') }}" class="h-[96px]"></div>
+<div class="p-[20px]">Работает благодаря Python, Scikit-Learn, TypeScript, FastAPI (и шаблонизатор Jinja2).
+<div class="text-[14px] text-gray-400 mt-[5px]">...Так же, мы предоставляем API парсера...</div>
+</div>
+
+
+<div class="p-[20px] flex justify-center"><img src="{{ url_for('static', path='images/ts.png') }}" class="h-[80px]"></div>
+<div class="p-[20px] flex justify-start"><img src="{{ url_for('static', path='images/fastapi.png') }}" class="h-[80px]"></div>
+</div>
+</section>
+
+
+<div class="text-[64px] w-[80%] mt-[80px]">Сайт сделал:</div>
+
+
+<section class="flex items-center gap-[50px] w-[80%] mt-[40px] ">
+<img src="{{ url_for('static', path='images/ya.jpg') }}" class="w-[700px] h-[700px] rounded-full border-[5px] object-cover" />
+<div class="flex flex-col text-center h-[700px]">
+    <p class="text-[256px] leading-[0.5]">Я*</p>
+    <p class="text-[34px] text-white mt-auto">* - с небольшой помощью ИИ</p>
+</div>
+</section>
+{% endblock %}

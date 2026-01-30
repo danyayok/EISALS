@@ -4,7 +4,7 @@ from typing import Optional
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = 'EISALS'
-    PROJECT_DESCRIPTION = 'Сервис для анализа ЕИС и подбора тендеров. KYSS LTD'
+    PROJECT_DESCRIPTION: str = 'Сервис для анализа ЕИС и подбора тендеров. KYSS LTD'
     PROJECT_VERSION: str = '0.1.0'
     VERSION: str = '0.1.0'
     API_V1_STR: str = "/api/v1"
