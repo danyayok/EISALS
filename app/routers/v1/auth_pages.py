@@ -11,14 +11,6 @@ from app.templates import templates
 
 router = APIRouter(tags=["Auth Pages"])
 
-@router.get("/login", response_class=HTMLResponse)
-async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", context={"request": request})
-
-@router.get("/register", response_class=HTMLResponse)
-async def login_page(request: Request):
-    return templates.TemplateResponse("register.html", context={"request": request})
-
 
 
 

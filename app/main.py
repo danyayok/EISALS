@@ -12,7 +12,7 @@ from starlette.responses import JSONResponse
 
 from app.templates import templates
 # from app.database import engine, Base
-from app.routers.v1 import auth_pages, feed #, profile, tenders, analytics
+from app.routers.v1 import auth_pages, pages #, profile, tenders, analytics
 from app.config import settings
 # from app.parsers.eis_parser import EISParser
 
@@ -57,9 +57,8 @@ app.add_middleware(
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-app.include_router(auth_pages.router)
-app.include_router(feed.router)
-
+app.include_router(pages.router)
+# app.include_router(auth.router)
 # app.include_router(profile.router)
 # app.include_router(tenders.router)
 

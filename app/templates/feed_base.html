@@ -19,7 +19,7 @@
 body { font-family: 'Jost', Arial, sans-serif; }
 </style>
 </head>
-<body class="bg-[#070F2B] text-white text-[36px] leading-[1.2] min-h-screen flex flex-col items-center overflow-x-hidden">
+<body class="bg-[#070F2B] text-white text-[36px] leading-[1.2] min-h-screen flex flex-col overflow-x-hidden">
 
 
 {% block header %}
@@ -27,36 +27,83 @@ body { font-family: 'Jost', Arial, sans-serif; }
     <a href="/" class="hover:opacity-80"><img src="{{ url_for('static', path='images/eisals_feed.png') }}" alt="Логотип"></a>
     <div class="flex items-center row gap-[5px]">
         <img src="{{ url_for('static', path='images/notification_feed_inactive.png') }}" class="w-[72px] hover:opacity-80">
-        <a href="/cab"><img src="{{ url_for('static', path='users/avas/ava.png') }}" class="w-[72px] rounded-full"></a>
+        <a href="/profile"><img src="{{ url_for('static', path='users/avas/ava.png') }}" class="w-[72px] rounded-full"></a>
         <img src="{{ url_for('static', path='images/opener.png') }}" class="w-[40px] hover:opacity-80">
     </div>
 </header>
 {% endblock %}
 
-
-<main class="flex-grow w-full flex flex-col items-center">
-{% block content %}{% endblock %}
+<main class="flex flex-1 w-full">
+    <aside class="w-[320px] shrink-0 px-[20px] py-[30px] text-[28px] bg-[#050C24] min-h-[calc(100vh-150px)] sticky top-[150px]">
+        <nav class="flex flex-col gap-2">
+            <a href="#"
+               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
+                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/profile_feed.png') }}">
+                Профиль
+            </a>
+            <a href="#"
+               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
+                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/feed_feed.png') }}">
+                Лента
+            </a>
+            <a href="#"
+               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
+                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/activities_feed.png') }}">
+                Мероприятия
+            </a>
+            <div class="h-px bg-white/25 my-4"></div>
+            <a href="#"
+               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
+                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/dashboard_feed.png') }}">
+                Дэшборд
+            </a>
+            <a href="#"
+               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
+                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/tender_feed.png') }}">
+                Тендеры
+            </a>
+            <a href="#"
+               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
+                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/analytic_feed.png') }}">
+                Аналитика
+            </a>
+            <div class="h-px bg-white/25 my-4"></div>
+            <a href="#"
+               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
+                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/news_feed.png') }}">
+                Новости
+            </a>
+            <div class="h-px bg-white/25 my-4"></div>
+            <a href="#"
+               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
+                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/support_feed.png') }}">
+                Поддержка
+            </a>
+        </nav>
+    </aside>
+    <section class="flex-1 px-[40px] py-[40px]">
+        {% block content %}{% endblock %}
+    </section>
 </main>
 
 
 {% block footer %}
-<div class="w-full h-[20px] bg-[#000412] mt-[20px]"></div>
+<div class="w-full h-[20px] bg-[#000412]"></div>
 <footer class="w-full bg-[#04091A]">
 <div class="flex gap-[40px] w-full px-[50px] py-[40px] box-border">
-<img src="{{ url_for('static', path='images/big_logo.png') }}" class="w-[300px] h-auto" />
+    <img src="{{ url_for('static', path='images/big_logo.png') }}" class="w-[300px] h-auto" />
 
 
-<div class="flex flex-col items-center justify-center gap-[10px] flex-1 text-center">
-<p class="text-[48px]">Спасибо за пользование сайтом!</p>
-<p class="text-[36px]">Связь:</p>
-<div class="flex gap-[20px] justify-center">
-<a target="_blank" href="https://discordapp.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/discord.png') }}"></a>
-<a target="_blank" href="https://t.me"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/tg.png') }}"></a>
-<a target="_blank" href="https://github.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/git.png') }}"></a>
-<a target="_blank" href="https://mail.google.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/gmail.png') }}"></a>
-</div>
-</div>
-</div>
+    <div class="flex flex-col items-center justify-center gap-[10px] flex-1 text-center">
+        <p class="text-[48px]">Спасибо за пользование сайтом!</p>
+        <p class="text-[36px]">Связь:</p>
+        <div class="flex gap-[20px] justify-center">
+            <a target="_blank" href="https://discordapp.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/discord.png') }}"></a>
+            <a target="_blank" href="https://t.me"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/tg.png') }}"></a>
+            <a target="_blank" href="https://github.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/git.png') }}"></a>
+            <a target="_blank" href="https://mail.google.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/gmail.png') }}"></a>
+        </div>
+    </div>
 </div>
 </footer>
 {% endblock %}

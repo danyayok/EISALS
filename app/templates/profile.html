@@ -1,0 +1,40 @@
+{% extends "feed_base.html" %}
+{% block title %}Профиль - EISALS{% endblock %}
+
+{% block content %}
+
+<div class="w-full max-w-[2000px] p-[30px]">
+    <div class="p-[30px] flex gap-[40px] items-center">
+        <div class="flex-shrink-0">
+            <img class="rounded-full w-[500px] h-[500px] object-cover"
+                 src="{{ url_for('static', path='images/ya.jpg') }}">
+        </div>
+        <div class="flex flex-col justify-between flex-1">
+            <div>
+                <p class="text-[48px] font-bold mb-[40px]">
+                    Тувинский обл. Мясокомбинат №102
+                </p>
+                <div class="grid grid-cols-2 gap-x-[60px] gap-y-[20px] text-[22px] opacity-90 ml-[70px] text-[30px]">
+
+                    <p>ИНН:</p>        <p>213412521412532</p>
+                    <p>ОГРН:</p>       <p>1027700132195</p>
+                    <p>Регион:</p>     <p>Республика Тыва</p>
+                    <p>Юр. Адрес:</p>      <p>ул. Садовая 34/641</p>
+                    <p>Факт. Адрес:</p>      <p>ул. Седова 1314/621341</p>
+                    <p>ОКПД2:</p>      <p>10.11.31.110</p>
+                    <p>ОКВЭД:</p>      <p>10.11 — переработка мяса</p>
+                    <p>Статус:</p>     <p class="text-green-400">Активен</p>
+                    <p>ЕИС:</p>        <p class="text-green-400">Аккредитован</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row w-full p-[50px]">
+        <aside class="bg-[#000822] border border-4 border-[#000412] rounded-[10px]">
+
+        </aside>
+    </div>
+</div>
+
+{% endblock %}
