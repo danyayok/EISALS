@@ -3,37 +3,142 @@
 
 {% block content %}
 
-<div class="w-full max-w-[2000px] p-[30px]">
-    <div class="p-[30px] flex gap-[40px] items-center">
+<div class="w-full p-[30px] space-y-[30px]">
+
+    <div class="bg-[#000822] border-4 border-[#000412] rounded-xl p-[30px] flex gap-[40px]">
+
         <div class="flex-shrink-0">
-            <img class="rounded-full w-[500px] h-[500px] object-cover"
+            <img class="rounded-full w-[420px] h-[420px] object-cover border-4 border-white"
                  src="{{ url_for('static', path='images/ya.jpg') }}">
         </div>
-        <div class="flex flex-col justify-between flex-1">
-            <div>
-                <p class="text-[48px] font-bold mb-[40px]">
-                    Тувинский обл. Мясокомбинат №102
-                </p>
-                <div class="grid grid-cols-2 gap-x-[60px] gap-y-[20px] text-[22px] opacity-90 ml-[70px] text-[30px]">
 
-                    <p>ИНН:</p>        <p>213412521412532</p>
-                    <p>ОГРН:</p>       <p>1027700132195</p>
-                    <p>Регион:</p>     <p>Республика Тыва</p>
-                    <p>Юр. Адрес:</p>      <p>ул. Садовая 34/641</p>
-                    <p>Факт. Адрес:</p>      <p>ул. Седова 1314/621341</p>
-                    <p>ОКПД2:</p>      <p>10.11.31.110</p>
-                    <p>ОКВЭД:</p>      <p>10.11 — переработка мяса</p>
-                    <p>Статус:</p>     <p class="text-green-400">Активен</p>
-                    <p>ЕИС:</p>        <p class="text-green-400">Аккредитован</p>
+        <div class="flex flex-col justify-center flex-1">
 
+            <p class="text-[44px] font-bold mb-[30px]">
+                Тувинский обл. Мясокомбинат №102
+            </p>
+
+            <div class="grid grid-cols-2 gap-y-[18px] text-[22px] opacity-90 items-center">
+
+                <p>ИНН:</p>        <p>213412521412532</p>
+                <p>ОГРН:</p>       <p>1027700132195</p>
+                <p>Регион:</p>     <p>Республика Тыва</p>
+                <p>Юр. адрес:</p>  <p>ул. Садовая 34/641</p>
+                <p>Факт. адрес:</p><p>ул. Седова 1314/621341</p>
+                <p>ОКПД2:</p>      <p>10.11.31.110</p>
+                <p>ОКВЭД:</p>      <p>10.11 — переработка мяса</p>
+
+                <p>Статус:</p>
+                <p class="text-green-400">Активен</p>
+
+                <p>ЕИС:</p>
+                <p class="text-green-400">Аккредитован</p>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="flex gap-[20px]">
+
+        <aside class="bg-[#000822] border-4 border-[#000412] rounded-xl w-[420px] p-[25px]">
+
+            <p class="text-[26px] font-semibold mb-[20px]">
+                Статистика
+            </p>
+
+            <div class="grid grid-cols-2 gap-y-[14px] text-[20px]">
+
+                <p>Процент побед:</p>      <p class="text-green-400">75%</p>
+                <p>Успешно завершено:</p>  <p class="text-green-400">94%</p>
+                <p>Всего выиграно:</p>     <p class="text-green-400">75</p>
+                <p>Подано заявок:</p>      <p class="text-yellow-400">100</p>
+                <p>Активных заказов:</p>   <p class="text-yellow-400">43</p>
+
+            </div>
+        </aside>
+
+
+        <div class="bg-[#000822] border-4 border-[#000412] rounded-xl flex-1 p-[25px]">
+
+            <p class="text-[26px] font-semibold mb-[20px]">
+                Медиа
+            </p>
+
+            <div class="flex gap-[15px]">
+
+                <img class="h-[120px] rounded-lg object-cover"
+                     src="{{ url_for('static', path='images/ya.jpg') }}">
+
+                <img class="h-[120px] rounded-lg object-cover"
+                     src="{{ url_for('static', path='images/ya.jpg') }}">
+
+                <img class="h-[120px] rounded-lg object-cover"
+                     src="{{ url_for('static', path='images/ya.jpg') }}">
+
+                <img class="h-[120px] rounded-lg object-cover"
+                     src="{{ url_for('static', path='images/ya.jpg') }}">
+
+            </div>
+
+            <p class="text-[26px] font-semibold mb-[20px]">
+                Достижения
+            </p>
+
+            <div class="flex gap-[15px]">
+
+                <img class="h-[120px] rounded-lg object-cover"
+                     src="{{ url_for('static', path='images/ya.jpg') }}">
+
+                <img class="h-[120px] rounded-lg object-cover"
+                     src="{{ url_for('static', path='images/ya.jpg') }}">
+
+                <img class="h-[120px] rounded-lg object-cover"
+                     src="{{ url_for('static', path='images/ya.jpg') }}">
+
+                <img class="h-[120px] rounded-lg object-cover"
+                     src="{{ url_for('static', path='images/ya.jpg') }}">
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="grid grid-cols-[420px_1fr] gap-[20px] w-full">
+        <div class="bg-[#000822] border-4 border-[#000412] rounded-xl w-[420px] p-[25px]"></div>
+        <div class="flex flex-col items-center gap-[20px]">
+            <div class="w-[50vw] overflow-hidden ">
+                <div class="flex flex-row min-h-[55px] bg-[#000412] rounded-t-[10px] p-[30px] justify-between items-center gap-[50px] ">
+                    <a href="/profile/12412312"><img src="{{ url_for('static', path='images/logo.png') }}" class="h-[40px] w-[40px] rounded-full"></a>
+                    <a href="/profile/12412312"><p class=""> Ньюйоркско-олинский-на-марнский Металлообрабатывающий завод </p></a>
+                    <a href="#"><img src="{{ url_for('static', path='images/dots_feed.png') }}" class="h-[50px]"></a> <!-- конкретно в этой строчке а нужна чисто как кнопка-->
+                </div>
+                <div class="flex items-center justify-center overflow-hidden bg-black">
+                    <img class="max-h-[50vh] w-auto" src="{{ url_for('static', path='images/post_image.png') }}">
+                </div>
+                <div class="bg-[#000412] p-[30px]">
+                    <div class="mb-[10px]">
+                    <p> Мы с коллегами сегодня отмечаем день сибирскоязвенного скотомогильника рядом с Ньюйоркско-олинским-на-марнским Металлообрабатывающим заводом. Провели инструктаж и сделали памятное фото!</p>
+
+                    </div>
+                    <div class="flex flex-row justify-between rounded-b-[10px] ">
+                        <p class="opacity-80"> 05.01.2027 </p>
+                        <div class="flex flex-row gap-10">
+                            <div class="flex flex-row gap-5 items-center">
+                                <img class="h-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/arrow_empty.png') }}">
+                                <p> 4 </p>
+                                <img class="h-[50px] rotate-180 hover:scale-110 transition" src="{{ url_for('static', path='images/arrow_empty.png') }}"> <!--эта стрелка должна быть перевёрнутой-->
+                            </div>
+                            <div class="flex flex-row gap-5 items-center">
+                                <p> 100 </p>
+                                <img src="{{ url_for('static', path='images/eye_feed.png') }}">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="flex flex-row w-full p-[50px]">
-        <aside class="bg-[#000822] border border-4 border-[#000412] rounded-[10px]">
-
-        </aside>
     </div>
 </div>
 

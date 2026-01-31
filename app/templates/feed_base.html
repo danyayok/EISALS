@@ -34,14 +34,15 @@ body { font-family: 'Jost', Arial, sans-serif; }
 {% endblock %}
 
 <main class="flex flex-1 w-full">
-    <aside class="w-[320px] shrink-0 px-[20px] py-[30px] text-[28px] bg-[#050C24] min-h-[calc(100vh-150px)] sticky top-[150px]">
+    <aside class="w-[320px] shrink-0 bg-[#050C24]">
+        <div class="sticky top-[150px] px-[20px] py-[30px] text-[28px]">
         <nav class="flex flex-col gap-2">
-            <a href="#"
+            <a href="/profile"
                class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
                 <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/profile_feed.png') }}">
                 Профиль
             </a>
-            <a href="#"
+            <a href="/feed"
                class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
                 <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/feed_feed.png') }}">
                 Лента
@@ -68,7 +69,7 @@ body { font-family: 'Jost', Arial, sans-serif; }
                 Аналитика
             </a>
             <div class="h-px bg-white/25 my-4"></div>
-            <a href="#"
+            <a href="/news"
                class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
                 <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/news_feed.png') }}">
                 Новости
@@ -80,6 +81,7 @@ body { font-family: 'Jost', Arial, sans-serif; }
                 Поддержка
             </a>
         </nav>
+        </div>
     </aside>
     <section class="flex-1 px-[40px] py-[40px]">
         {% block content %}{% endblock %}
