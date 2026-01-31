@@ -3,5 +3,36 @@
 
 
 {% block content %}
+<div class="w-[50vw] overflow-hidden">
+    <div class="flex flex-row min-h-[55px] bg-[#000412] rounded-t-[10px] p-[30px] justify-between items-center gap-[50px]">
+        <a href="/profile/12412312"><img src="{{ url_for('static', path='images/logo.png') }}" class="h-[40px] w-[40px] rounded-full"></a>
+        <a href="/profile/12412312"><p class=""> Ньюйоркско-олинский-на-марнский Металлообрабатывающий завод </p></a>
+        <a href="#"><img src="{{ url_for('static', path='images/dots_feed.png') }}" class="h-[50px]"></a> <!-- конкретно в этой строчке а нужна чисто как кнопка-->
+    </div>
+    <div class="flex items-center justify-center overflow-hidden bg-black">
+        <img class="max-h-[50vh] w-auto" src="{{ url_for('static', path='images/post_image.png') }}">
+    </div>
+    <div class="bg-[#000412] p-[30px]">
+        <div class="mb-[10px]">
+        <p> Мы с коллегами сегодня отмечаем день сибирскоязвенного скотомогильника рядом с Ньюйоркско-олинским-на-марнским Металлообрабатывающим заводом. Провели инструктаж и сделали памятное фото!</p>
+
+        </div>
+        <div class="flex flex-row justify-between rounded-b-[10px] ">
+            <p class="opacity-80"> 05.01.2027 </p>
+            <div class="flex flex-row gap-10">
+                <div class="flex flex-row gap-5 items-center">
+                    <img class="h-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/arrow_empty.png') }}">
+                    <p> 4 </p>
+                    <img class="h-[50px] rotate-180 hover:scale-110 transition" src="{{ url_for('static', path='images/arrow_empty.png') }}"> <!--эта стрелка должна быть перевёрнутой-->
+                </div>
+                <div class="flex flex-row gap-5 items-center">
+                    <p> 100 </p>
+                    <img src="{{ url_for('static', path='images/eye_feed.png') }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
