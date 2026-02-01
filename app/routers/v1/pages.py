@@ -10,6 +10,14 @@ from app.templates import templates
 # from app.dependencies import get_current_user
 
 router = APIRouter(tags=["HTML pages"])
+
+# база
+
+@router.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    return templates.TemplateResponse(
+        name="index.html", context={"request": request})
+
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
     return templates.TemplateResponse("login.html", context={"request": request})
@@ -17,6 +25,8 @@ async def login_page(request: Request):
 @router.get("/register", response_class=HTMLResponse)
 async def login_page(request: Request):
     return templates.TemplateResponse("register.html", context={"request": request})
+
+# социальная часть
 
 @router.get("/feed", response_class=HTMLResponse)
 async def feed(request: Request):
@@ -29,6 +39,12 @@ async def profile(request: Request):
 @router.get("/profile", response_class=HTMLResponse)
 async def own_profile(request: Request):
     return templates.TemplateResponse("profile.html", context={"request": request})
+
+# дэшборд
+
+@router.get("/dashboard", response_class=HTMLResponse)
+async def dashboard(request: Request):
+    return templates.TemplateResponse("dashboard.html", context={"request": request})
 
 # @router.get("/register", response_class=HTMLResponse)
 # async def login_page(request: Request):
