@@ -3,5 +3,76 @@
 
 
 {% block content %}
+<div class="flex flex-col w-full p-[20px] gap-10">
+    <div class="flex flex-row gap-[20px] w-full">
+        <div class="flex flex-col gap-10 px-[100px] py-[40px] bg-[#000412] flex-[3] text-[40px] justify-between items-center rounded-[10px]">
+            <p> Лучший тендер на сегодня: </p>
+            <div class="flex flex-col justify-between p-5 bg-[#142A74] bg-opacity-15 w-full flex-1 rounded-[10px]">
+                <p class="mb-[20px] text-[40px]"> Тендер №125451235125634</p>
+                <div class="grid grid-cols-2 text-[40px] gap-x-10">
+                    <p> ОКВЭД: </p> <p> 10.11 </p>
+                    <p> Оценка выгоды: </p> <p class="text-green-400"> 83% </p>
+                    <p> Расчётная прибыль: </p> <p class="text-green-400"> 15038403 Р </p>
+                    <p> Шанс демпинга: </p> <p class="text-yellow-400"> 26% </p>
+                </div>
+            </div>
+            <button class="flex justify-center items-center p-5 bg-[#142A74]/20 rounded-[10px] text-[36px] hover:bg-[#142A74]/40 transition w-full ">
+                Cохранить тендер
+            </button>
+        </div>
+        <div class="flex flex-col gap-10 flex-1 px-[100px] py-[40px] bg-[#000412] text-[40px] justify-center items-center rounded-[10px]">
+            <div class="flex flex-row gap-20 bg-[#000412] rounded-[10px]">
+                <div class="flex flex-col gap-10 items-center">
+                    <p> Ваша конкурентоспособность </p>
+                    <div class="flex flex-col p-5 bg-[#142A74] bg-opacity-15 gap-5 rounded-[10px] w-full">
+                        <p> 30 лет на рынке </p>
+                        <p> 30 лет на рынке </p>
+                        <p> 30 лет на рынке </p>
+                        <p> 30 лет на рынке </p>
+                        <p> 30 лет на рынке </p>
+                        <p> 30 лет на рынке </p>
+                    </div>
+                    <p> Конкурентоспособность: <span class="text-green-400"> Высокая </span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row gap-[20px] w-full">
+        <div class="flex flex-col gap-6 p-[40px] bg-[#000412] rounded-[10px] items-center">
+                <p class="text-[40px]">Лучшие тендеры</p>
+                <div class="flex bg-[#142A74]/15 rounded-[10px] overflow-hidden">
+                    <div class="flex-1 flex flex-col gap-4 p-5">
+                        <div class="grid grid-cols-4 gap-4 p-4 bg-[#142A74]/60 rounded-[10px] text-[36px]">
+                            <span>11.10</span>
+                            <span>10 тонн</span>
+                            <span>1.23 млн ₽</span>
+                            <span class="text-green-400 text-right">86%</span>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 p-4 bg-[#142A74]/60 rounded-[10px] text-[36px]">
+                            <span>11.10</span>
+                            <span>10 тонн</span>
+                            <span>583 тыс ₽</span>
+                            <span class="text-green-400 text-right">95%</span>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 p-4 bg-[#142A74]/60 rounded-[10px] text-[36px]">
+                            <span>11.10</span>
+                            <span>10 тонн</span>
+                            <span>10 млн ₽</span>
+                            <span class="text-red-400 text-right">23%</span>
+                        </div>
 
+                    </div>
+
+                    <div class="w-[50px] flex items-start p-2">
+                        <div class="w-full h-[40px] bg-[#142A74]/70 rounded-full"></div>
+                    </div>
+
+                </div>
+                <a href="/tenders"
+                   class="flex justify-center items-center p-5 bg-[#142A74]/20 rounded-[10px] text-[36px] hover:bg-[#142A74]/40 transition w-full">
+                    Посмотреть все тендеры →
+                </a>
+        </div>
+    </div>
+</div>
 {% endblock %}
