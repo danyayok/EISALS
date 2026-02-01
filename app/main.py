@@ -63,15 +63,6 @@ app.include_router(pages.router)
 # app.include_router(tenders.router)
 
 
-
-@app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
-    return templates.TemplateResponse(
-        name="index.html",
-        context={"request": request}
-    )
-
-
 @app.get("/health")
 async def health_check():
     return {
