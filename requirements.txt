@@ -1,0 +1,8 @@
+PyJWT
+bcrypt
+fastapi
+pydantic
+SQLAlchemy
+uvicorn
+starlette
+pydantic-settings
