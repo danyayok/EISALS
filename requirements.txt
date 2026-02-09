@@ -6,3 +6,5 @@ SQLAlchemy
 uvicorn
 starlette
 pydantic-settings
+jinja2
+pydantic[email]
