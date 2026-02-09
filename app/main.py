@@ -49,7 +49,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # сюда домен в деве пофиг а так для безопасности только домен свой
+    allow_origins=["https://eisals.ru", "http://eisals.ru"],   # сюда домен в деве пофиг а так для безопасности только домен свой
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
