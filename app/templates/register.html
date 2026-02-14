@@ -2,48 +2,41 @@
 {% block title %}Регистрация - EISALS{% endblock %}
 
 {% block content %}
-<div class="w-full flex justify-center py-16 mt-[20px]">
+<div class="w-full flex justify-center py-7 relative">
+    <!-- Фоновое свечение -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-blue-600/10 blur-[150px] -z-10"></div>
+
     <form
+        id="reg-form"
         method="POST"
         action="/api/register"
         enctype="multipart/form-data"
-        class="w-[80vw] max-w-[1000px] flex gap-[40px] border-[5px] border-white rounded-[30px] p-[40px]"
+        class="w-[80vw] max-w-[1100px] flex flex-col md:flex-row gap-[60px] border-[5px] border-white rounded-[40px] p-[50px] bg-white/[0.02] backdrop-blur-md shadow-2xl"
     >
+        <!-- ЛЕВАЯ КОЛОНКА (Аватар + Чекбоксы) -->
+        <div class="flex flex-col items-center gap-[30px] w-[320px] shrink-0">
+            <div class="relative group">
+                <div class="absolute -inset-2 bg-white/20 rounded-[30px] blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                <img id="ava-log" src="{{ url_for('static', path='users/avas/ava.png') }}" class="relative w-[220px] h-[220px] object-cover border-[6px] border-white rounded-[30px] shadow-2xl">
+            </div>
 
-        <!-- ЛЕВАЯ ЧАСТЬ -->
-        <div class="flex flex-col items-center gap-[20px] w-[300px] shrink-0">
-            <img
-                id="ava-log"
-                src="{{ url_for('static', path='users/avas/ava.png') }}"
-                class="w-[200px] h-[200px] object-cover border-[4px] border-white rounded-[20px]"
-            >
-
-            <input
-                type="file"
-                id="avatarka"
-                name="avatar"
-                accept="image/*"
-                hidden
-            >
-            <label
-                for="avatarka"
-                class="cursor-pointer px-[30px] py-[12px] text-[20px] border-[3px] border-white rounded-[40px] hover:bg-white hover:text-[#070F2B] transition"
-            >
-                Загрузить аватарку
+            <input type="file" id="avatarka" name="avatar" accept="image/*" hidden>
+            <label for="avatarka" class="cursor-pointer px-[40px] py-[15px] text-[20px] font-bold border-[3px] border-white rounded-full hover:bg-white hover:text-[#070F2B] transition-all text-center w-full uppercase tracking-widest active:scale-95">
+                Загрузить фото
             </label>
 
-            <div class="flex flex-col gap-[15px] text-[18px]">
-                <label class="flex gap-[10px] items-start">
-                    <input type="checkbox" name="agree_conf" required>
-                    <span>
+            <div class="flex flex-col gap-[20px] text-[16px] text-white/60 mt-4">
+                <label class="flex gap-[15px] items-start cursor-pointer group">
+                    <input type="checkbox" name="agree_conf" required class="mt-1 w-5 h-5 accent-blue-500">
+                    <span class="group-hover:text-white transition-colors leading-tight">
                         Согласен с обработкой<br>
-                        <a href="documents/agreement" class="underline">персональных данных</a>
+                        <a href="#" class="underline font-bold text-white italic">персональных данных</a>
                     </span>
                 </label>
 
-                <label class="flex gap-[10px] items-start">
-                    <input type="checkbox" name="agree_news" checked>
-                    <span>
+                <label class="flex gap-[15px] items-start cursor-pointer group">
+                    <input type="checkbox" name="agree_news" checked class="mt-1 w-5 h-5 accent-blue-500">
+                    <span class="group-hover:text-white transition-colors leading-tight">
                         Согласен получать новости<br>
                         и предложения от EISALS
                     </span>
@@ -51,82 +44,112 @@
             </div>
         </div>
 
-        <!-- ПРАВАЯ ЧАСТЬ -->
-        <div class="flex-1 flex flex-col gap-[25px] text-[32px]">
-            <div>
-                <p>Имя:</p>
-                <input
-                    type="text"
-                    name="username"
-                    required
-                    placeholder="Имя пользователя"
-                    class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
-                >
-            </div>
+        <!-- ПРАВАЯ КОЛОНКА (Поля ввода) -->
+        <div class="flex-1 flex flex-col gap-[25px]">
+            <h2 class="text-[48px] font-black uppercase tracking-tighter mb-4 text-white">Создать аккаунт</h2>
 
-            <div class="flex gap-[20px]">
-                <div class="flex-1">
-                    <p>Почта:</p>
-                    <input
-                        type="email"
-                        name="email"
-                        required
-                        placeholder="Почта"
-                        class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
-                    >
+            <div class="grid grid-cols-1 gap-[20px]">
+                <div class="space-y-2">
+                    <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">ИНН организации</p>
+                    <input type="text" id="inn" name="username" required maxlength="12" placeholder="10 или 12 цифр" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono">
                 </div>
 
-                <div class="flex-1">
-                    <p>Телефон:</p>
-                    <input
-                        type="tel"
-                        name="phone"
-                        required
-                        placeholder="+7XXXXXXXXXX"
-                        pattern="\+7\d{10}"
-                        class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
-                    >
+                <div class="flex flex-col xl:flex-row gap-[20px]">
+                    <div class="flex-1 space-y-1">
+                        <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">E-mail</p>
+                        <input type="email" id="email" name="email" required placeholder="mail@example.com" class="w-full px-[20px] py-[12px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all">
+                    </div>
+                    <div class="flex-1 space-y-1">
+                        <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">Телефон</p>
+                        <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___" class="w-full px-[20px] py-[12px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono">
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <p>Пароль:</p>
-                <input
-                    type="password"
-                    name="password"
-                    required
-                    placeholder="Пароль"
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
-                >
+            <!-- Безопасность -->
+            <div class="space-y-6">
+                <div class="space-y-3">
+                    <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">Новый пароль</p>
+                    <input type="password" id="password" name="password" required placeholder="Пароль" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all">
+                    <div id="strength-wrapper" class="px-2 opacity-0 transition-opacity duration-300">
+                        <div class="flex justify-between items-center mb-1">
+                            <span id="strength-text" class="text-[11px] uppercase tracking-widest font-bold">Сложность</span>
+                            <span id="strength-percent" class="text-[11px] font-mono text-white/20">0%</span>
+                        </div>
+                        <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                            <div id="strength-bar" class="h-full w-0 bg-red-500 transition-all duration-500"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">Подтверждение</p>
+                    <input type="password" id="confirm_password" required placeholder="Повторите ввод" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none transition-all">
+                    <p id="match-message" class="text-[11px] uppercase tracking-[0.1em] font-bold ml-2 opacity-0">Пароли не совпадают</p>
+                </div>
             </div>
 
-            <button
-                type="submit"
-                class="self-center mt-[20px] px-[60px] py-[15px] text-[28px] border-[4px] border-white rounded-[50px] hover:bg-white hover:text-[#070F2B] transition"
-            >
-                Зарегистрироваться
-            </button>
+            <!-- Действия -->
+            <div class="flex flex-col items-center gap-6 mt-4">
+                <button id="submit-btn" type="submit" class="w-full py-[20px] text-[28px] font-black uppercase border-[6px] border-white rounded-full hover:bg-white hover:text-[#070F2B] transition-all disabled:opacity-20">
+                    Создать аккаунт
+                </button>
 
-            <p class="text-[18px] text-center text-gray-300">
-                Есть аккаунт?
-                <a href="/login" class="underline text-white">Войти</a>
-            </p>
+                <p class="text-[20px] text-white/40">
+                    Уже есть аккаунт?
+                    <a href="/login" class="text-white font-bold underline hover:text-blue-400 transition-colors">Войти</a>
+                </p>
+            </div>
         </div>
     </form>
 </div>
 
 <script>
-const input = document.getElementById("avatarka");
-const img = document.getElementById("ava-log");
-
-input.addEventListener("change", () => {
-    const file = input.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = e => img.src = e.target.result;
-    reader.readAsDataURL(file);
+// (Скрипты превью, масок и валидации как в прошлом ответе)
+const inputAva = document.getElementById("avatarka"), imgAva = document.getElementById("ava-log");
+inputAva.addEventListener("change", () => {
+    const file = inputAva.files[0];
+    if (file) { const reader = new FileReader(); reader.onload = e => imgAva.src = e.target.result; reader.readAsDataURL(file); }
 });
+
+const phoneInput = document.getElementById('phone');
+phoneInput.addEventListener('input', e => {
+    let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+    e.target.value = !x[2] ? x[1] === '7' ? '+7 ' : x[1] : '+7 (' + x[2] + (x[3] ? ') ' + x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+});
+
+const innInput = document.getElementById('inn');
+innInput.addEventListener('input', e => {
+    e.target.value = e.target.value.replace(/\D/g, '');
+    e.target.style.borderColor = (e.target.value.length === 10 || e.target.value.length === 12) ? "#4ade80" : "white";
+});
+
+const pass = document.getElementById('password'), confirmPass = document.getElementById('confirm_password'), strengthBar = document.getElementById('strength-bar'), strengthText = document.getElementById('strength-text'), strengthPercent = document.getElementById('strength-percent'), strengthWrapper = document.getElementById('strength-wrapper'), matchMsg = document.getElementById('match-message'), submitBtn = document.getElementById('submit-btn');
+
+function validate() {
+    const val = pass.value, confVal = confirmPass.value;
+    let score = 0;
+    strengthWrapper.style.opacity = val.length > 0 ? "1" : "0";
+    if (val.length >= 8) score += 25;
+    if (/[a-z]/.test(val) && /[A-Z]/.test(val)) score += 25;
+    if (/\d/.test(val)) score += 25;
+    if (/[^A-Za-z0-9]/.test(val)) score += 25;
+    strengthBar.style.width = score + "%";
+    strengthPercent.innerText = score + "%";
+    if (score <= 25) { strengthBar.className = "h-full bg-red-500 transition-all"; strengthText.innerText = "Слабый"; strengthText.style.color = "#ef4444"; }
+    else if (score <= 50) { strengthBar.className = "h-full bg-yellow-500 transition-all"; strengthText.innerText = "Средний"; strengthText.style.color = "#eab308"; }
+    else if (score <= 75) { strengthBar.className = "h-full bg-blue-400 transition-all"; strengthText.innerText = "Надежный"; strengthText.style.color = "#60a5fa"; }
+    else { strengthBar.className = "h-full bg-green-400 transition-all shadow-[0_0_10px_#4ade80]"; strengthText.innerText = "Идеальный"; strengthText.style.color = "#4ade80"; }
+
+    if (confVal.length > 0) {
+        matchMsg.style.opacity = "1";
+        const isMatch = val === confVal && val !== "";
+        confirmPass.style.borderColor = isMatch ? "#4ade80" : "#ef4444";
+        matchMsg.innerText = isMatch ? "Пароли совпадают" : "Пароли не совпадают";
+        matchMsg.style.color = isMatch ? "#4ade80" : "#ef4444";
+        submitBtn.disabled = !isMatch;
+    } else { matchMsg.style.opacity = "0"; confirmPass.style.borderColor = "white"; submitBtn.disabled = true; }
+}
+pass.addEventListener('input', validate); confirmPass.addEventListener('input', validate);
 </script>
 {% endblock %}

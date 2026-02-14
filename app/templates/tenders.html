@@ -1,0 +1,95 @@
+{% extends "dashboard_base.html" %}
+{% block title %}Тендеры - EISALS{% endblock %}
+
+{% block content %}
+<div class="flex flex-col gap-[20px] w-full font-sans">
+
+    <div class="bg-[#000822] border-4 border-[#000412] rounded-xl px-[20px] py-[15px] flex flex-wrap items-center gap-[20px]">
+        <!-- Код / ИНН -->
+        <div class="flex flex-col gap-1 min-w-[140px]">
+            <label class="text-white/30 text-[10px] uppercase tracking-wider font-bold">Код / ИНН</label>
+            <input type="text" placeholder="10.11"
+                   class="bg-[#000412] border border-white/10 rounded-md px-3 py-1.5 text-[14px] outline-none focus:border-green-400/30 transition text-white">
+        </div>
+        <!-- Цена (Диапазон) -->
+        <div class="flex flex-col gap-1">
+            <label class="text-white/30 text-[10px] uppercase tracking-wider font-bold">Цена (₽)</label>
+            <div class="flex items-center gap-1">
+                <input type="number" placeholder="от" class="bg-[#000412] border border-white/10 rounded-md px-2 py-1.5 text-[14px] w-[80px] outline-none focus:border-green-400/30 transition">
+                <span class="text-white/20">—</span>
+                <input type="number" placeholder="до" class="bg-[#000412] border border-white/10 rounded-md px-2 py-1.5 text-[14px] w-[80px] outline-none focus:border-green-400/30 transition">
+            </div>
+        </div>
+
+        <!-- Объём -->
+        <div class="flex flex-col gap-1">
+            <label class="text-white/30 text-[10px] uppercase tracking-wider font-bold">Объём</label>
+            <select class="bg-[#000412] border border-white/10 rounded-md px-3 py-1.5 text-[14px] outline-none focus:border-green-400/30 transition text-white/80">
+                <option>Любой</option>
+                <option>до 1т</option>
+                <option>1-10т</option>
+                <option>> 10т</option>
+            </select>
+        </div>
+
+        <!-- Регион -->
+        <div class="flex flex-col gap-1 min-w-[160px]">
+            <label class="text-white/30 text-[10px] uppercase tracking-wider font-bold">Регион поставки</label>
+            <select class="bg-[#000412] border border-white/10 rounded-md px-3 py-1.5 text-[14px] outline-none focus:border-green-400/30 transition text-white/80">
+                <option>Вся Россия</option>
+                <option>Республика Тыва</option>
+                <option>Красноярский край</option>
+            </select>
+        </div>
+
+        <!-- Кнопка применения (Компактная) -->
+        <div class="ml-auto pt-4">
+            <button class="bg-green-500/10 border border-green-500/30 text-green-400 px-5 py-2 rounded-lg hover:bg-green-500/20 transition font-bold text-[14px] active:scale-95 shadow-[0_0_15px_rgba(74,222,128,0.05)]">
+                Применить
+            </button>
+        </div>
+    </div>
+
+    <!-- Основная таблица -->
+    <div class="bg-[#000822] border-4 border-[#000412] rounded-xl p-[25px] w-full">
+        <div class="flex justify-between items-center mb-[20px]">
+            <div class="flex items-center gap-3">
+                <div class="w-1.5 h-5 bg-green-400 rounded-full"></div>
+                <p class="text-[22px] tracking-tight font-semibold">Рекомендуемые тендеры</p>
+            </div>
+            <div class="text-white/30 text-xs font-mono uppercase tracking-widest">
+                Найдено: 142
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-white/20 text-[12px] uppercase tracking-[0.2em] border-b border-[#000412]">
+                        <th class="pb-3 font-bold">Код</th>
+                        <th class="pb-3 font-bold">Объём</th>
+                        <th class="pb-3 font-bold">Цена</th>
+                        <th class="pb-3 font-bold">Шанс</th>
+                        <th class="pb-3 text-right"></th>
+                    </tr>
+                </thead>
+                <tbody class="text-[18px]">
+                    <tr class="border-b border-[#000412]/50 hover:bg-white/[0.01] transition-colors group">
+                        <td class="py-4 font-medium text-white/90 font-mono">10.11.31.110</td>
+                        <td class="py-4 text-white/60 text-[16px]">10 тонн <span class="text-white/30 ml-1">(Говядина)</span></td>
+                        <td class="py-4 font-bold text-white">583 000 <span class="text-[12px] text-white/30 font-normal ml-1">₽</span></td>
+                        <td class="py-4">
+                            <span class="text-green-400 font-bold px-2 py-0.5 rounded bg-green-400/5 border border-green-400/10 text-[14px]">95%</span>
+                        </td>
+                        <td class="py-4 text-right">
+                            <button class="opacity-20 group-hover:opacity-100 transition-all p-1">
+                                <img class="h-7 w-7 transition-transform duration-200 hover:scale-110 active:scale-90" src="{{ url_for('static', path='images/saved_dash.png') }}">
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

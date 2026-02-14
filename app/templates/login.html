@@ -2,72 +2,79 @@
 {% block title %}Вход — EISALS{% endblock %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center">
+<div class="min-h-[80vh] flex items-center justify-center relative py-7">
+    <!-- Фоновое свечение (Туман) за формой -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] bg-blue-600/10 blur-[130px] -z-10"></div>
 
-    <form 
-        method="POST" 
+    <form
+        method="POST"
         action="/api/login"
-        class="w-[420px] border-[5px] border-white rounded-[20px] p-[40px] flex flex-col gap-[30px]"
+        class="w-[500px] border-[5px] border-white rounded-[40px] p-[50px] flex flex-col gap-[35px] bg-white/[0.02] backdrop-blur-md shadow-2xl transition-all duration-500 hover:border-white/90"
     >
+        <div class="flex flex-col items-center gap-2">
+            <h1 class="text-[48px] font-black uppercase tracking-tighter text-center leading-tight">
+                Вход
+            </h1>
+            <div class="w-12 h-1.5 bg-blue-500 rounded-full"></div>
+        </div>
 
-        <h1 class="text-[40px] text-center leading-tight">
-            Вход в EISALS
-        </h1>
-
-        <div class="flex flex-col gap-[20px]">
-            <div class="flex flex-col gap-[8px]">
-                <label class="text-[24px]">Почта</label>
+        <div class="flex flex-col gap-[25px]">
+            <!-- Поле E-mail -->
+            <div class="flex flex-col gap-[10px]">
+                <label class="text-[12px] uppercase tracking-[0.3em] font-bold text-white/30 ml-3">Электронная почта</label>
                 <input
                     type="email"
                     name="email"
                     required
                     placeholder="example@mail.com"
-                    class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
+                    class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 focus:bg-white/10 transition-all placeholder:text-white/10"
                 />
             </div>
 
-            <div class="flex flex-col gap-[8px]">
-                <label class="text-[24px]">Пароль</label>
+            <!-- Поле Пароль -->
+            <div class="flex flex-col gap-[10px]">
+                <label class="text-[12px] uppercase tracking-[0.3em] font-bold text-white/30 ml-3">Пароль доступа</label>
                 <input
                     type="password"
                     name="password"
                     required
-                    placeholder="Пароль"
-                    class="w-full px-[15px] py-[10px] text-[24px] border-[3px] border-white rounded-[10px] bg-transparent"
+                    placeholder="Введите пароль"
+                    class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 focus:bg-white/10 transition-all placeholder:text-white/10"
                 />
             </div>
         </div>
 
-        <div class="flex items-center justify-center gap-[12px]">
-            <input 
-                type="checkbox" 
-                id="keep_logged" 
-                name="keep_logged" 
-                class="custom-checkbox"
+        <!-- Опции: Запомнить меня -->
+        <div class="flex items-center justify-center gap-[12px] group cursor-pointer">
+            <input
+                type="checkbox"
+                id="keep_logged"
+                name="keep_logged"
+                class="w-5 h-5 accent-blue-500 cursor-pointer"
             >
-            <label for="keep_logged" class="text-[18px]">
+            <label for="keep_logged" class="text-[18px] text-white/60 group-hover:text-white transition-colors cursor-pointer font-medium">
                 Запомнить меня
             </label>
         </div>
 
-        <div class="flex flex-col gap-[15px] text-center">
-            <button type="submit" class="self-center mt-[20px] px-[60px] py-[15px] text-[28px] border-[4px] border-white rounded-[50px] hover:bg-white hover:text-[#070F2B] transition">
+        <div class="flex flex-col gap-[20px] text-center mt-2">
+            <button type="submit" class="w-full py-[20px] text-[32px] font-black uppercase border-[6px] border-white rounded-full hover:bg-white hover:text-[#070F2B] transition-all duration-300 shadow-xl active:scale-95">
                 Войти
             </button>
 
-            <a href="/recover_pass" class="text-gray-400 hover:text-white transition">
-                Не могу войти
-            </a>
-
-            <p class="text-[18px]">
-                Нет аккаунта?
-                <a href="/register" class="underline">
-                    Зарегистрироваться
+            <div class="flex flex-col gap-2">
+                <a href="/recover_pass" class="text-[16px] text-white/30 hover:text-white transition-colors font-bold uppercase tracking-widest">
+                    Забыли пароль?
                 </a>
-            </p>
+
+                <p class="text-[18px] text-white/40">
+                    Нет аккаунта?
+                    <a href="/register" class="text-white font-bold underline hover:text-blue-400 transition-colors">
+                        Регистрация
+                    </a>
+                </p>
+            </div>
         </div>
-
     </form>
-
 </div>
 {% endblock %}

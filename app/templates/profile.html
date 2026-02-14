@@ -1,145 +1,163 @@
 {% extends "feed_base.html" %}
-{% block title %}Профиль - EISALS{% endblock %}
+{% block title %}Профиль - Мясокомбинат №102{% endblock %}
 
 {% block content %}
+<div class="w-full max-w-[1400px] mx-auto space-y-8 pb-20">
 
-<div class="w-full p-[30px] space-y-[30px]">
+    <!-- HEADER CARD -->
+    <div class="relative bg-[#000822] border-4 border-[#000412] rounded-2xl p-10 flex gap-12 overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 blur-[100px] -z-10"></div>
 
-    <div class="bg-[#000822] border-4 border-[#000412] rounded-xl p-[30px] flex gap-[40px]">
-
-        <div class="flex-shrink-0">
-            <img class="rounded-full w-[420px] h-[420px] object-cover border-4 border-white"
+        <div class="relative group">
+            <div class="absolute -inset-1 bg-gradient-to-b from-white/20 to-transparent rounded-full blur opacity-25 group-hover:opacity-50 transition"></div>
+            <img class="relative rounded-full w-32 h-32 object-cover border-4 border-white/10 shadow-2xl"
                  src="{{ url_for('static', path='images/filler.png') }}">
         </div>
 
         <div class="flex flex-col justify-center flex-1">
+            <h1 class="text-5xl font-bold tracking-tight mb-8 leading-tight">
+                Тувинский обл.<br>Мясокомбинат №102
+            </h1>
 
-            <p class="text-[44px] font-bold mb-[30px]">
-                Тувинский обл. Мясокомбинат №102
-            </p>
-
-            <div class="grid grid-cols-2 gap-y-[18px] text-[22px] opacity-90 items-center">
-
-                <p>ИНН:</p>        <p>213412521412532</p>
-                <p>ОГРН:</p>       <p>1027700132195</p>
-                <p>Регион:</p>     <p>Республика Тыва</p>
-                <p>Юр. адрес:</p>  <p>ул. Садовая 34/641</p>
-                <p>Факт. адрес:</p><p>ул. Седова 1314/621341</p>
-                <p>ОКПД2:</p>      <p>10.11.31.110</p>
-                <p>ОКВЭД:</p>      <p>10.11 — переработка мяса</p>
-
-                <p>Статус:</p>
-                <p class="text-green-400">Активен</p>
-
-                <p>ЕИС:</p>
-                <p class="text-green-400">Аккредитован</p>
-
+            <div class="grid grid-cols-2 gap-x-16 gap-y-2 max-w-3xl">
+                <div class="flex justify-between border-b border-white/5 py-1">
+                    <span class="text-white/30 uppercase text-xs tracking-widest font-bold">ИНН</span>
+                    <span class="text-white/80">213412521412532</span>
+                </div>
+                <div class="flex justify-between border-b border-white/5 py-1">
+                    <span class="text-white/30 uppercase text-xs tracking-widest font-bold">ОГРН</span>
+                    <span class="text-white/80">1027700132195</span>
+                </div>
+                <div class="flex justify-between border-b border-white/5 py-1">
+                    <span class="text-white/30 uppercase text-xs tracking-widest font-bold">Регион</span>
+                    <span class="text-white/80">Республика Тыва</span>
+                </div>
+                <div class="flex justify-between border-b border-white/5 py-1">
+                    <span class="text-white/30 uppercase text-xs tracking-widest font-bold">ОКПД2</span>
+                    <span class="text-white/80">10.11.31.110</span>
+                </div>
+                <div class="flex justify-between border-b border-white/5 py-1">
+                    <span class="text-white/30 uppercase text-xs tracking-widest font-bold">Статус</span>
+                    <span class="text-green-400 font-bold">Активен</span>
+                </div>
+                <div class="flex justify-between border-b border-white/5 py-1">
+                    <span class="text-white/30 uppercase text-xs tracking-widest font-bold">ЕИС</span>
+                    <span class="text-green-400 font-bold">Аккредитован</span>
+                </div>
             </div>
         </div>
-
     </div>
 
-
-    <div class="flex gap-[20px]">
-
-        <aside class="bg-[#000822] border-4 border-[#000412] rounded-xl w-[420px] p-[25px]">
-
-            <p class="text-[26px] font-semibold mb-[20px]">
-                Статистика
-            </p>
-
-            <div class="grid grid-cols-2 gap-y-[14px] text-[20px]">
-
-                <p>Процент побед:</p>      <p class="text-green-400">75%</p>
-                <p>Успешно завершено:</p>  <p class="text-green-400">94%</p>
-                <p>Всего выиграно:</p>     <p class="text-green-400">75</p>
-                <p>Подано заявок:</p>      <p class="text-yellow-400">100</p>
-                <p>Активных заказов:</p>   <p class="text-yellow-400">43</p>
-
-            </div>
-        </aside>
-
-
-        <div class="bg-[#000822] border-4 border-[#000412] rounded-xl flex-1 p-[25px]">
-
-            <p class="text-[26px] font-semibold mb-[20px]">
-                Медиа
-            </p>
-
-            <div class="flex gap-[15px]">
-
-                <img class="h-[120px] rounded-lg object-cover"
-                     src="{{ url_for('static', path='images/filler.png') }}">
-
-                <img class="h-[120px] rounded-lg object-cover"
-                     src="{{ url_for('static', path='images/filler.png') }}">
-
-                <img class="h-[120px] rounded-lg object-cover"
-                     src="{{ url_for('static', path='images/filler.png') }}">
-
-                <img class="h-[120px] rounded-lg object-cover"
-                     src="{{ url_for('static', path='images/filler.png') }}">
-
-            </div>
-
-            <p class="text-[26px] font-semibold mb-[20px]">
-                Достижения
-            </p>
-
-            <div class="flex gap-[15px]">
-
-                <img class="h-[120px] rounded-lg object-cover"
-                     src="{{ url_for('static', path='images/filler.png') }}">
-
-                <img class="h-[120px] rounded-lg object-cover"
-                     src="{{ url_for('static', path='images/filler.png') }}">
-
-                <img class="h-[120px] rounded-lg object-cover"
-                     src="{{ url_for('static', path='images/filler.png') }}">
-
-                <img class="h-[120px] rounded-lg object-cover"
-                     src="{{ url_for('static', path='images/filler.png') }}">
-
-            </div>
-
-        </div>
-
-    </div>
-    <div class="grid grid-cols-[420px_1fr] gap-[20px] w-full">
-        <div class="bg-[#000822] border-4 border-[#000412] rounded-xl w-[420px] p-[25px]"></div>
-        <div class="flex flex-col items-center gap-[20px]">
-            <div class="w-[50vw] overflow-hidden ">
-                <div class="flex flex-row min-h-[55px] bg-[#000412] rounded-t-[10px] p-[30px] justify-between items-center gap-[50px] ">
-                    <a href="/profile/12412312"><img src="{{ url_for('static', path='images/logo.png') }}" class="h-[40px] w-[40px] rounded-full"></a>
-                    <a href="/profile/12412312"><p class=""> Ньюйоркско-олинский-на-марнский Металлообрабатывающий завод </p></a>
-                    <a href="#"><img src="{{ url_for('static', path='images/dots_feed.png') }}" class="h-[50px]"></a> <!-- конкретно в этой строчке а нужна чисто как кнопка-->
+    <div class="grid grid-cols-12 gap-6">
+        <!-- LEFT COLUMN -->
+        <div class="col-span-4 space-y-6">
+            <aside class="bg-[#000822] border-4 border-[#000412] rounded-2xl p-8">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-1.5 h-6 bg-blue-500 rounded-full"></div>
+                    <h2 class="text-2xl font-bold">Статистика</h2>
                 </div>
-                <div class="flex items-center justify-center overflow-hidden bg-black">
-                    <img class="max-h-[50vh] w-auto" src="{{ url_for('static', path='images/post_image.png') }}">
-                </div>
-                <div class="bg-[#000412] p-[30px]">
-                    <div class="mb-[10px]">
-                    <p> Мы с коллегами сегодня отмечаем день сибирскоязвенного скотомогильника рядом с Ньюйоркско-олинским-на-марнским Металлообрабатывающим заводом. Провели инструктаж и сделали памятное фото!</p>
 
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-white/50">Процент побед</span>
+                            <span class="text-green-400 font-bold">75%</span>
+                        </div>
+                        <div class="w-full bg-[#000412] h-2 rounded-full overflow-hidden">
+                            <div class="bg-green-400 h-full w-[75%] shadow-[0_0_10px_#4ade80]"></div>
+                        </div>
                     </div>
-                    <div class="flex flex-row justify-between rounded-b-[10px] ">
-                        <p class="opacity-80"> 05.01.2027 </p>
+
+                    <div class="grid grid-cols-1 gap-4 pt-4">
+                        <div class="bg-[#000412]/50 p-4 rounded-xl border border-white/5 flex justify-between items-center">
+                            <span class="text-white/40 text-sm uppercase tracking-wider">Выиграно</span>
+                            <span class="text-green-400 text-2xl font-bold">75</span>
+                        </div>
+                        <div class="bg-[#000412]/50 p-4 rounded-xl border border-white/5 flex justify-between items-center">
+                            <span class="text-white/40 text-sm uppercase tracking-wider">Заявок</span>
+                            <span class="text-yellow-400 text-2xl font-bold">100</span>
+                        </div>
+                        <div class="bg-[#000412]/50 p-4 rounded-xl border border-white/5 flex justify-between items-center">
+                            <span class="text-white/40 text-sm uppercase tracking-wider">В работе</span>
+                            <span class="text-blue-400 text-2xl font-bold">43</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col-span-8 space-y-6">
+            <div class="bg-[#000822] border-4 border-[#000412] rounded-2xl p-8">
+                <h2 class="text-2xl font-bold mb-6">Медиа-архив</h2>
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-white/5 hover:border-blue-500/50 transition cursor-pointer group">
+                        <img class="w-full h-full object-cover group-hover:scale-110 transition duration-500" src="{{ url_for('static', path='images/filler.png') }}">
+                    </div>
+                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-white/5 hover:border-blue-500/50 transition cursor-pointer group">
+                        <img class="w-full h-full object-cover group-hover:scale-110 transition duration-500" src="{{ url_for('static', path='images/filler.png') }}">
+                    </div>
+                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-white/5 hover:border-blue-500/50 transition cursor-pointer group">
+                        <img class="w-full h-full object-cover group-hover:scale-110 transition duration-500" src="{{ url_for('static', path='images/filler.png') }}">
+                    </div>
+                    <div class="aspect-square rounded-xl overflow-hidden border-2 border-white/5 hover:border-blue-500/50 transition cursor-pointer group">
+                        <img class="w-full h-full object-cover group-hover:scale-110 transition duration-500" src="{{ url_for('static', path='images/filler.png') }}">
+                    </div>
+                </div>
+            </div>
+            <article class="bg-[#000822] border-4 border-[#000412] rounded-2xl overflow-hidden shadow-2xl">
+                <header class="flex flex-row bg-[#000412] p-6 justify-between items-center gap-6">
+                    <div class="flex items-center gap-4">
+                        <a href="/profile/12412312" class="shrink-0">
+                            <img src="{{ url_for('static', path='images/logo.png') }}" class="w-16 h-16 rounded-full border-2 border-white/10 hover:opacity-80 transition">
+                        </a>
+                        <a href="/profile/12412312" class="group">
+                            <p class="text-2xl font-bold leading-tight group-hover:text-blue-400 transition">
+                                Ньюйоркско-олинский-на-марнский Металлообрабатывающий завод
+                            </p>
+                        </a>
+                    </div>
+                    <button class="shrink-0 p-2 hover:bg-white/5 rounded-full transition">
+                        <img src="{{ url_for('static', path='images/dots_feed.png') }}" class="w-8 opacity-50">
+                    </button>
+                </header>
+
+                <!-- Контент (Изображение) -->
+                <div class="flex items-center justify-center overflow-hidden bg-black/40 border-y-4 border-[#000412]">
+                    <img class="max-h-[60vh] w-full object-cover" src="{{ url_for('static', path='images/post_image.png') }}">
+                </div>
+
+                <!-- Подвал поста -->
+                <div class="p-8">
+                    <p class="text-xl leading-relaxed text-white/90 mb-8">
+                        Мы с коллегами сегодня отмечаем день сибирскоязвенного скотомогильника рядом с Ньюйоркско-олинским-на-марнским Металлообрабатывающим заводом. Провели инструктаж и сделали памятное фото!
+                    </p>
+
+                    <div class="flex flex-row justify-between items-center border-t border-white/5 pt-6">
+                        <p class="text-white/30 font-mono">05.01.2027</p>
+
                         <div class="flex flex-row gap-10">
-                            <div class="flex flex-row gap-5 items-center">
-                                <img class="h-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/arrow_empty.png') }}">
-                                <p> 4 </p>
-                                <img class="h-[50px] rotate-180 hover:scale-110 transition" src="{{ url_for('static', path='images/arrow_empty.png') }}"> <!--эта стрелка должна быть перевёрнутой-->
+                            <!-- Рейтинг -->
+                            <div class="flex flex-row gap-4 items-center bg-[#000412] px-4 py-2 rounded-xl border border-white/5">
+                                <button class="hover:brightness-150 transition active:scale-90">
+                                    <img class="h-8 transition transform hover:-translate-y-1" src="{{ url_for('static', path='images/arrow_empty.png') }}">
+                                </button>
+                                <p class="text-2xl font-bold min-w-[20px] text-center">4</p>
+                                <button class="hover:brightness-150 transition active:scale-90">
+                                    <img class="h-8 rotate-180 transition transform hover:translate-y-1" src="{{ url_for('static', path='images/arrow_empty.png') }}">
+                                </button>
                             </div>
-                            <div class="flex flex-row gap-5 items-center">
-                                <p> 100 </p>
-                                <img src="{{ url_for('static', path='images/eye_feed.png') }}">
+
+                            <!-- Просмотры -->
+                            <div class="flex flex-row gap-3 items-center text-white/40">
+                                <span class="text-xl font-medium">100</span>
+                                <img class="w-8 opacity-40" src="{{ url_for('static', path='images/eye_feed.png') }}">
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </article>
         </div>
     </div>
 </div>
-
 {% endblock %}

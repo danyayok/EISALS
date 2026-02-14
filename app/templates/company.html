@@ -1,0 +1,118 @@
+{% extends "dashboard_base.html" %}
+{% block title %}Компания - EISALS{% endblock %}
+
+{% block content %}
+<div class="flex flex-col w-full max-w-[1400px] mx-auto gap-8 pb-10">
+
+    <!-- ВЕРХНИЙ БЛОК: КАРТОЧКА ОРГАНИЗАЦИИ -->
+    <div class="flex flex-col lg:flex-row gap-6 w-full">
+
+        <!-- Основная инфографика компании -->
+        <div class="flex flex-col gap-8 p-8 bg-[#000822] border-4 border-[#000412] flex-[1.5] rounded-xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 blur-[100px] -z-0"></div>
+
+            <div class="flex items-center gap-8 relative z-10">
+                <div class="relative shrink-0">
+                    <div class="absolute -inset-2 bg-blue-500/20 rounded-full blur-xl animate-pulse"></div>
+                    <img src="{{ url_for('static', path='images/filler.png') }}" class="w-32 h-32 rounded-full border-4 border-white/10 relative shadow-2xl">
+                </div>
+                <div>
+                    <h1 class="text-[42px] font-bold leading-tight tracking-tight">Тувинский обл.<br>Мясокомбинат №102</h1>
+                    <div class="flex gap-4 mt-4">
+                        <span class="bg-green-500/10 text-green-400 px-4 py-1.5 rounded-xl border border-green-500/20 font-bold text-sm uppercase tracking-widest">Активен</span>
+                        <span class="bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-xl border border-blue-500/20 font-bold text-sm uppercase tracking-widest">Надёжный поставщик</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-x-12 gap-y-6 pt-6 border-t border-white/5 relative z-10">
+                <div class="flex flex-col gap-1">
+                    <span class="text-white/30 text-xs uppercase tracking-[0.2em] font-black">ИНН предприятия</span>
+                    <span class="text-[22px] font-mono text-white/90">213412521412532</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <span class="text-white/30 text-xs uppercase tracking-[0.2em] font-black">ОГРН регистрации</span>
+                    <span class="text-[22px] font-mono text-white/90">1027700132195</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <span class="text-white/30 text-xs uppercase tracking-[0.2em] font-black">Юридический адрес</span>
+                    <span class="text-[18px] text-white/80">667000, Респ. Тыва, г. Кызыл, ул. Заводская, 1</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <span class="text-white/30 text-xs uppercase tracking-[0.2em] font-black">Дата регистрации</span>
+                    <span class="text-[22px] text-white/90">14.05.1994</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Скоринг доверия -->
+        <div class="flex flex-col gap-6 p-8 bg-[#000822] border-4 border-[#000412] flex-1 rounded-xl">
+            <p class="text-[20px] font-bold text-white/40 uppercase tracking-widest text-center">Индекс доверия EISALS</p>
+
+            <div class="flex flex-col items-center justify-center flex-1 py-4">
+                <div class="text-[86px] font-black text-white leading-none mb-2 shadow-blue-500/20 drop-shadow-2xl">9.8</div>
+                <div class="w-full h-3 bg-[#000412] rounded-full overflow-hidden border border-white/5 mb-6">
+                    <div class="h-full bg-gradient-to-r from-blue-600 to-blue-400 w-[98%] shadow-[0_0_20px_rgba(59,130,246,0.5)]"></div>
+                </div>
+
+                <div class="grid grid-cols-1 w-full gap-3">
+                    <div class="flex justify-between items-center p-3 bg-[#000412] rounded-lg border border-white/5">
+                        <span class="text-white/30 text-xs uppercase">Арбитражные дела</span>
+                        <span class="text-green-400 font-bold">Отсутствуют</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-[#000412] rounded-lg border border-white/5">
+                        <span class="text-white/30 text-xs uppercase">Задолженность ФНС</span>
+                        <span class="text-green-400 font-bold">0.00 ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- НИЖНИЙ РЯД: ФИНАНСОВЫЕ ПОКАЗАТЕЛИ И ЛИЦЕНЗИИ -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Блок: Финансы -->
+        <div class="flex flex-col gap-6 p-8 bg-[#000822] border-4 border-[#000412] rounded-xl lg:col-span-2">
+            <h3 class="text-[24px] font-bold">Финансовые показатели <span class="text-white/20 text-sm ml-2 font-normal">за прошлый год</span></h3>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="bg-[#000412] p-5 rounded-xl border border-white/5">
+                    <p class="text-white/30 text-xs uppercase mb-3 font-bold">Выручка</p>
+                    <p class="text-2xl font-bold text-white">842.5 млн <span class="text-xs opacity-40">₽</span></p>
+                    <p class="text-green-400 text-xs mt-2 font-bold">+12.4% ↑</p>
+                </div>
+                <div class="bg-[#000412] p-5 rounded-xl border border-white/5">
+                    <p class="text-white/30 text-xs uppercase mb-3 font-bold">Чистая прибыль</p>
+                    <p class="text-2xl font-bold text-white">45.2 млн <span class="text-xs opacity-40">₽</span></p>
+                    <p class="text-green-400 text-xs mt-2 font-bold">+5.1% ↑</p>
+                </div>
+                <div class="bg-[#000412] p-5 rounded-xl border border-white/5">
+                    <p class="text-white/30 text-xs uppercase mb-3 font-bold">Активы</p>
+                    <p class="text-2xl font-bold text-white">1.2 млрд <span class="text-xs opacity-40">₽</span></p>
+                    <p class="text-white/20 text-xs mt-2 font-bold">Стабильно</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок: Лицензии -->
+        <div class="flex flex-col gap-6 p-8 bg-[#000822] border-4 border-[#000412] rounded-xl">
+            <h3 class="text-[24px] font-bold">Лицензии</h3>
+            <div class="flex flex-col gap-3">
+                <div class="p-4 bg-[#000412] rounded-xl border border-white/5 hover:border-blue-500/30 transition-all cursor-default">
+                    <p class="text-white font-medium text-sm">ГОСТ Р ИСО 22000-2019</p>
+                    <p class="text-white/20 text-[10px] uppercase mt-1">Пищевая безопасность</p>
+                </div>
+                <div class="p-4 bg-[#000412] rounded-xl border border-white/5 hover:border-blue-500/30 transition-all cursor-default">
+                    <p class="text-white font-medium text-sm">Сертификат ХАССП</p>
+                    <p class="text-white/20 text-[10px] uppercase mt-1">Контроль качества</p>
+                </div>
+                <button class="text-blue-500/50 hover:text-blue-400 text-sm font-bold uppercase tracking-widest mt-2 transition-colors">
+                    + Добавить документ
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

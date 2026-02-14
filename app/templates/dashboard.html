@@ -1,78 +1,120 @@
 {% extends "dashboard_base.html" %}
 {% block title %}Дэшборд - EISALS{% endblock %}
 
-
 {% block content %}
-<div class="flex flex-col w-full p-[20px] gap-10">
-    <div class="flex flex-row gap-[20px] w-full">
-        <div class="flex flex-col gap-10 px-[100px] py-[40px] bg-[#000412] flex-[3] text-[40px] justify-between items-center rounded-[10px]">
-            <p> Лучший тендер на сегодня: </p>
-            <div class="flex flex-col justify-between p-5 bg-[#142A74] bg-opacity-15 w-full flex-1 rounded-[10px]">
-                <p class="mb-[20px] text-[40px]"> Тендер №125451235125634</p>
-                <div class="grid grid-cols-2 text-[40px] gap-x-10">
-                    <p> ОКВЭД: </p> <p> 10.11 </p>
-                    <p> Оценка выгоды: </p> <p class="text-green-400"> 83% </p>
-                    <p> Расчётная прибыль: </p> <p class="text-green-400"> 15038403 Р </p>
-                    <p> Шанс демпинга: </p> <p class="text-yellow-400"> 26% </p>
+<div class="flex flex-col w-full max-w-[1400px] mx-auto gap-8 pb-10">
+
+    <!-- ВЕРХНИЙ РЯД: ГЛАВНЫЙ ТЕНДЕР И КОНКУРЕНЦИЯ -->
+    <div class="flex flex-col lg:flex-row gap-6 w-full">
+
+        <!-- Левый блок: Лучший тендер -->
+        <div class="flex flex-col gap-6 p-8 bg-[#000822] border-4 border-[#000412] flex-[2] rounded-xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1 h-full bg-green-400"></div>
+
+            <div class="flex justify-between items-start">
+                <p class="text-[22px] font-bold text-white/50 uppercase tracking-wider">Лучший тендер дня</p>
+                <span class="bg-green-400/10 text-green-400 px-3 py-1 rounded-full text-xs font-bold border border-green-400/20">РЕКОМЕНДОВАНО</span>
+            </div>
+
+            <div class="flex flex-col justify-between p-6 bg-[#000412] w-full flex-1 rounded-xl border border-white/5">
+                <p class="mb-6 text-[26px] font-bold text-white">Тендер №125451235125634</p>
+
+                <div class="grid grid-cols-2 text-[20px] gap-y-4">
+                    <div class="text-white/40">ОКВЭД:</div>
+                    <div class="font-mono text-white/90">10.11</div>
+
+                    <div class="text-white/40">Оценка выгоды:</div>
+                    <div class="text-green-400 font-bold">83%</div>
+
+                    <div class="text-white/40">Расчётная прибыль:</div>
+                    <div class="text-green-400 font-bold">15 038 403 <span class="text-xs font-normal opacity-50">₽</span></div>
+
+                    <div class="text-white/40">Шанс демпинга:</div>
+                    <div class="text-yellow-400 font-bold">26%</div>
                 </div>
             </div>
-            <button class="flex justify-center items-center p-5 bg-[#142A74]/20 rounded-[10px] text-[36px] hover:bg-[#142A74]/40 transition w-full ">
-                Cохранить тендер
+
+            <button class="flex justify-center items-center p-4 bg-blue-600/10 border-2 border-blue-500/20 rounded-xl text-[20px] font-bold text-blue-400 hover:bg-blue-500/20 transition-all active:scale-[0.98]">
+                Сохранить в избранное
             </button>
         </div>
-        <div class="flex flex-col gap-10 flex-1 px-[100px] py-[40px] bg-[#000412] text-[40px] justify-center items-center rounded-[10px]">
-            <div class="flex flex-row gap-20 bg-[#000412] rounded-[10px]">
-                <div class="flex flex-col gap-10 items-center">
-                    <p> Ваша конкурентоспособность </p>
-                    <div class="flex flex-col p-5 bg-[#142A74] bg-opacity-15 gap-5 rounded-[10px] w-full">
-                        <p> 30 лет на рынке </p>
-                        <p> 30 лет на рынке </p>
-                        <p> 30 лет на рынке </p>
-                        <p> 30 лет на рынке </p>
-                        <p> 30 лет на рынке </p>
-                        <p> 30 лет на рынке </p>
+
+        <!-- Правый блок: Конкурентоспособность -->
+        <div class="flex flex-col gap-6 p-8 bg-[#000822] border-4 border-[#000412] flex-1 rounded-xl">
+            <p class="text-[22px] font-bold text-white/50 uppercase tracking-wider">Аналитика рынка</p>
+
+            <div class="flex flex-col items-center justify-center flex-1 py-4">
+                <!-- Визуальный круг или индикатор -->
+                <div class="relative w-32 h-32 flex items-center justify-center mb-6">
+                    <svg class="w-full h-full transform -rotate-90">
+                        <circle cx="64" cy="64" r="58" stroke="currentColor" stroke-width="8" fill="transparent" class="text-[#000412]""")/>>
+                        <circle cx="64" cy="64" r="58" stroke="currentColor" stroke-width="8" fill="transparent" stroke-dasharray="364" stroke-dashoffset="91" class="text-green-400 shadow-[0_0_15px_#4ade80]""")/>>
+                    </svg>
+                    <span class="absolute text-3xl font-bold text-white">A+</span>
+                </div>
+
+                <div class="flex flex-col p-4 bg-[#000412] gap-3 rounded-xl w-full border border-white/5">
+                    <div class="flex justify-between items-center text-[16px]">
+                        <span class="text-white/40 uppercase tracking-tighter">Опыт:</span>
+                        <span class="text-white font-bold">30 лет на рынке</span>
                     </div>
-                    <p> Конкурентоспособность: <span class="text-green-400"> Высокая </span></p>
+                    <div class="flex justify-between items-center text-[16px]">
+                        <span class="text-white/40 uppercase tracking-tighter">Репутация:</span>
+                        <span class="text-green-400 font-bold">Безупречная</span>
+                    </div>
                 </div>
             </div>
+
+            <p class="text-[18px] text-center bg-green-400/5 py-3 rounded-lg border border-green-400/10 uppercase tracking-widest font-bold text-green-400">
+                Статус: Высокая
+            </p>
         </div>
+
     </div>
-    <div class="flex flex-row gap-[20px] w-full">
-        <div class="flex flex-col gap-6 p-[40px] bg-[#000412] rounded-[10px] items-center">
-                <p class="text-[40px]">Лучшие тендеры</p>
-                <div class="flex bg-[#142A74]/15 rounded-[10px] overflow-hidden">
-                    <div class="flex-1 flex flex-col gap-4 p-5">
-                        <div class="grid grid-cols-4 gap-4 p-4 bg-[#142A74]/60 rounded-[10px] text-[36px]">
-                            <span>11.10</span>
-                            <span>10 тонн</span>
-                            <span>1.23 млн ₽</span>
-                            <span class="text-green-400 text-right">86%</span>
-                        </div>
-                        <div class="grid grid-cols-4 gap-4 p-4 bg-[#142A74]/60 rounded-[10px] text-[36px]">
-                            <span>11.10</span>
-                            <span>10 тонн</span>
-                            <span>583 тыс ₽</span>
-                            <span class="text-green-400 text-right">95%</span>
-                        </div>
-                        <div class="grid grid-cols-4 gap-4 p-4 bg-[#142A74]/60 rounded-[10px] text-[36px]">
-                            <span>11.10</span>
-                            <span>10 тонн</span>
-                            <span>10 млн ₽</span>
-                            <span class="text-red-400 text-right">23%</span>
-                        </div>
 
-                    </div>
-
-                    <div class="w-[50px] flex items-start p-2">
-                        <div class="w-full h-[40px] bg-[#142A74]/70 rounded-full"></div>
-                    </div>
-
-                </div>
-                <a href="/tenders"
-                   class="flex justify-center items-center p-5 bg-[#142A74]/20 rounded-[10px] text-[36px] hover:bg-[#142A74]/40 transition w-full">
-                    Посмотреть все тендеры →
-                </a>
+    <!-- НИЖНИЙ БЛОК: ТАБЛИЦА ТЕНДЕРОВ -->
+    <div class="flex flex-col gap-6 p-8 bg-[#000822] border-4 border-[#000412] rounded-xl w-full">
+        <div class="flex justify-between items-end mb-2">
+            <p class="text-[26px] font-bold tracking-tight">Подходящие предложения</p>
+            <span class="text-white/20 font-mono text-sm tracking-widest uppercase">Найдено: 14</span>
         </div>
+
+        <div class="overflow-hidden rounded-xl border border-white/5 bg-[#000412]/50">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-white/30 text-[12px] uppercase tracking-[0.2em] border-b border-[#000412]">
+                        <th class="px-6 py-4 font-bold">Код</th>
+                        <th class="px-6 py-4 font-bold">Объём</th>
+                        <th class="px-6 py-4 font-bold">Цена</th>
+                        <th class="px-6 py-4 font-bold text-right">Шанс победы</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[18px]">
+                    <tr class="border-b border-[#000412]/50 hover:bg-white/[0.02] transition-colors group cursor-pointer">
+                        <td class="px-6 py-5 font-mono text-white/90">11.10</td>
+                        <td class="px-6 py-5 text-white/60 text-[16px]">10 тонн</td>
+                        <td class="px-6 py-5 font-bold text-white">1.23 млн <span class="text-xs font-normal opacity-40">₽</span></td>
+                        <td class="px-6 py-5 text-right">
+                            <span class="text-green-400 font-bold bg-green-400/5 px-3 py-1 rounded-full border border-green-400/10">86%</span>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-white/[0.02] transition-colors group cursor-pointer">
+                        <td class="px-6 py-5 font-mono text-white/90">11.10</td>
+                        <td class="px-6 py-5 text-white/60 text-[16px]">10 тонн</td>
+                        <td class="px-6 py-5 font-bold text-white">583 тыс <span class="text-xs font-normal opacity-40">₽</span></td>
+                        <td class="px-6 py-5 text-right">
+                            <span class="text-green-400 font-bold bg-green-400/5 px-3 py-1 rounded-full border border-green-400/10">95%</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a href="/dashboard/tenders"
+           class="flex justify-center items-center p-4 bg-[#000412] border-2 border-white/5 rounded-xl text-[20px] font-bold hover:bg-white/5 transition-all group">
+           <span>Посмотреть все тендеры</span>
+           <span class="ml-3 opacity-30 group-hover:translate-x-2 group-hover:opacity-100 transition-all">→</span>
+        </a>
     </div>
 </div>
 {% endblock %}

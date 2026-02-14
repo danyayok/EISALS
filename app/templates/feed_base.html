@@ -1,115 +1,100 @@
 <!DOCTYPE html>
 <html lang="ru" class="h-full">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>{% block title %}Главная{% endblock %}</title>
-<link rel="icon" href="{{ url_for('static', path='images/favicon.png') }}" type="image/png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Главная{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', path='images/favicon.png') }}" type="image/png" />
 
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com" rel="stylesheet" />
 
-
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
-
-
-<style>
-body { font-family: 'Jost', Arial, sans-serif; }
-</style>
+    <style>
+        body { font-family: 'Jost', Arial, sans-serif; }
+        /* Плавный скролл всей страницы */
+        html { scroll-behavior: smooth; }
+        /* Скрываем системные скроллбары, где они не нужны */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
-<body class="bg-[#070F2B] text-white text-[36px] leading-[1.2] min-h-screen flex flex-col overflow-x-hidden">
-
+<body class="bg-[#070F2B] text-white leading-[1.2] min-h-screen flex flex-col overflow-x-hidden">
 
 {% block header %}
-<header class="flex items-center justify-between w-full py-[10px] px-[30px] h-[150px] bg-[#000412]">
-    <a href="/" class="hover:opacity-80"><img src="{{ url_for('static', path='images/eisals_feed.png') }}" alt="Логотип"></a>
-    <div class="flex items-center row gap-[5px]">
-        <img src="{{ url_for('static', path='images/notification_feed_inactive.png') }}" class="w-[72px] hover:opacity-80">
-        <a href="/profile"><img src="{{ url_for('static', path='users/avas/ava.png') }}" class="w-[72px] rounded-full"></a>
-        <img src="{{ url_for('static', path='images/opener.png') }}" class="w-[40px] hover:opacity-80">
-    </div>
+<header class="flex shrink-0 items-center justify-between w-full h-[clamp(70px,5vw,120px)] px-[clamp(16px,2vw,40px)] bg-[#000412] border-b border-white/5 z-50 sticky top-0">
+  <a href="/" class="hover:opacity-80 transition-opacity">
+    <img class="h-[clamp(50px,10vh,64px)]" src="{{ url_for('static', path='images/eisals_feed.png') }}" alt="Логотип">
+  </a>
+  <div class="flex items-center gap-[15px]">
+    <img src="{{ url_for('static', path='images/notification_feed_inactive.png') }}" class="w-[clamp(32px,2.4vw,64px)] hover:scale-110 transition cursor-pointer">
+    <a href="/profile" class="hover:ring-4 ring-blue-500/20 rounded-full transition-all">
+      <img src="{{ url_for('static', path='users/avas/ava.png') }}" class="w-[clamp(32px,2.4vw,64px)] h-[clamp(32px,2.4vw,64px)] rounded-full border-2 border-white/10 object-cover shadow-lg">
+    </a>
+    <img src="{{ url_for('static', path='images/opener.png') }}" class="w-[clamp(20px,2vw,32px)] hover:opacity-100 opacity-50 cursor-pointer transition">
+  </div>
 </header>
 {% endblock %}
 
-<main class="flex flex-1 w-full">
-    <aside class="w-[320px] shrink-0 bg-[#050C24]">
-        <div class="sticky top-[150px] px-[20px] py-[30px] text-[28px]">
-        <nav class="flex flex-col gap-2">
-            <a href="/profile"
-               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
-                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/profile_feed.png') }}">
-                Профиль
-            </a>
-            <a href="/feed"
-               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
-                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/feed_feed.png') }}">
-                Лента
-            </a>
-            <a href="/activities"
-               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
-                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/activities_feed.png') }}">
-                Мероприятия
-            </a>
-            <div class="h-px bg-white/25 my-4"></div>
-            <a href="/dashboard"
-               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
-                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/dashboard_feed.png') }}">
-                Дэшборд
-            </a>
-            <a href="/dashboard/tenders"
-               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
-                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/tender_feed.png') }}">
-                Тендеры
-            </a>
-            <a href="/analytics"
-               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
-                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/analytic_feed.png') }}">
-                Аналитика
-            </a>
-            <div class="h-px bg-white/25 my-4"></div>
-            <a href="/news"
-               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
-                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/news_feed.png') }}">
-                Новости
-            </a>
-            <div class="h-px bg-white/25 my-4"></div>
-            <a href="/help/support"
-               class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/10 transition">
-                <img class="h-[30px] w-[30px]" src="{{ url_for('static', path='images/support_feed.png') }}">
-                Поддержка
-            </a>
-        </nav>
-        </div>
-    </aside>
-    <section class="flex flex-1 flex-col gap-20 items-center px-[40px] py-[40px]">
-        {% block content %}{% endblock %}
-    </section>
-</main>
+<main class="flex flex-1 w-full items-start relative">
 
+  <!-- STICKY ASIDE: Теперь он тянется по контенту и прилипает к верху -->
+  <aside class="w-[clamp(240px,16vw,360px)] shrink-0 bg-[#050C24] border-r border-white/5 sticky top-[clamp(70px,5vw,120px)] h-fit min-h-[calc(100vh-120px)] no-scrollbar z-40">
+    <div class="px-6 py-10">
+      <nav class="flex flex-col gap-1">
+        <p class="text-[11px] uppercase tracking-[0.2em] text-white/20 mb-6 px-4 font-black">Навигация</p>
 
-{% block footer %}
-<div class="w-full h-[20px] bg-[#000412]"></div>
-<footer class="w-full bg-[#04091A]">
-<div class="flex gap-[40px] w-full px-[50px] py-[40px] box-border">
-    <img src="{{ url_for('static', path='images/big_logo.png') }}" class="w-[300px] h-auto" />
+        <a href="/profile" class="flex items-center gap-4 px-4 py-3.5 rounded-xl hover:bg-white/[0.03] transition-all group">
+          <img class="h-7 w-7 opacity-30 group-hover:opacity-100 transition" src="{{ url_for('static', path='images/profile_feed.png') }}">
+          <span class="font-medium text-[18px]">Профиль</span>
+        </a>
 
+        <a href="/feed" class="flex items-center gap-4 px-4 py-3.5 rounded-xl bg-white/5 border border-white/5 text-blue-400">
+          <img class="h-7 w-7" src="{{ url_for('static', path='images/feed_feed.png') }}">
+          <span class="font-bold text-[18px]">Лента</span>
+        </a>
 
-    <div class="flex flex-col items-center justify-center gap-[10px] flex-1 text-center">
-        <p class="text-[48px]">Спасибо за пользование сайтом!</p>
-        <p class="text-[36px]">Связь:</p>
-        <div class="flex gap-[20px] justify-center">
-            <a target="_blank" href="https://discordapp.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/discord.png') }}"></a>
-            <a target="_blank" href="https://t.me"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/tg.png') }}"></a>
-            <a target="_blank" href="https://github.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/git.png') }}"></a>
-            <a target="_blank" href="https://mail.google.com"><img class="w-[50px] hover:scale-110 transition" src="{{ url_for('static', path='images/gmail.png') }}"></a>
-        </div>
+        <a href="/activities" class="flex items-center gap-4 px-4 py-3.5 rounded-xl hover:bg-white/[0.03] transition-all group">
+          <img class="h-7 w-7 opacity-30 group-hover:opacity-100 transition" src="{{ url_for('static', path='images/activities_feed.png') }}">
+          <span class="font-medium text-[18px]">Мероприятия</span>
+        </a>
+
+        <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-8"></div>
+
+        <a href="/dashboard" class="flex items-center gap-4 px-4 py-3.5 rounded-xl hover:bg-white/[0.03] transition-all group">
+          <img class="h-7 w-7 opacity-30 group-hover:opacity-100 transition" src="{{ url_for('static', path='images/dashboard_feed.png') }}">
+          <span class="font-medium text-[18px]">Дэшборд</span>
+        </a>
+
+        <a href="/dashboard/tenders" class="flex items-center gap-4 px-4 py-3.5 rounded-xl hover:bg-white/[0.03] transition-all group">
+          <img class="h-7 w-7 opacity-30 group-hover:opacity-100 transition" src="{{ url_for('static', path='images/tender_feed.png') }}">
+          <span class="font-medium text-[18px]">Тендеры</span>
+        </a>
+
+        <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-8"></div>
+
+        <a href="/news" class="flex items-center gap-4 px-4 py-3.5 rounded-xl hover:bg-white/[0.03] transition-all group">
+          <img class="h-7 w-7 opacity-30 group-hover:opacity-100 transition" src="{{ url_for('static', path='images/news_feed.png') }}">
+          <span class="font-medium text-[18px]">Новости</span>
+        </a>
+
+        <a href="/help/support" class="flex items-center gap-4 px-4 py-3.5 rounded-xl hover:bg-white/[0.03] transition-all group mt-12 opacity-40">
+          <img class="h-7 w-7 opacity-50 group-hover:opacity-100" src="{{ url_for('static', path='images/support_feed.png') }}">
+          <span class="font-medium text-[16px]">Поддержка</span>
+        </a>
+      </nav>
     </div>
-</div>
-</footer>
-{% endblock %}
+  </aside>
 
+  <!-- СЕКЦИЯ КОНТЕНТА: Скроллится вместе со всей страницей -->
+  <section class="flex flex-1 flex-col gap-10 items-center p-10 min-h-screen">
+      <div class="w-full max-w-[1200px] flex flex-col items-center">
+          {% block content %}{% endblock %}
+      </div>
+  </section>
 
+</main>
 </body>
 </html>
