@@ -14,6 +14,7 @@ class User(Base):
 
     company_name = Column(String(255), unique=True, index=True)
     email = Column(String(255), unique=True, index=True)
+    phone_number = Column(Integer(), unique=True, index=True)
     hashed_password = Column(String(255))
     region = Column(String(100))
     okpd2_codes = Column(ARRAY(String))

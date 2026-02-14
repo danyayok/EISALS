@@ -46,6 +46,13 @@ async def own_profile(request: Request):
 async def dashboard(request: Request):
     return templates.TemplateResponse("dashboard.html", context={"request": request})
 
+@router.get("/dashboard/tenders", response_class=HTMLResponse)
+async def dashboard(request: Request):
+    return templates.TemplateResponse("tenders.html", context={"request": request})
+
+@router.get("/dashboard/company", response_class=HTMLResponse)
+async def own_profile(request: Request):
+    return templates.TemplateResponse("company.html", context={"request": request})
 # @router.get("/register", response_class=HTMLResponse)
 # async def login_page(request: Request):
 #     return templates.TemplateResponse("register.html", context={"request": request})
