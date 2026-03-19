@@ -1,5 +1,5 @@
 {% extends "feed_base.html" %}
-{% block title %}Профиль - Мясокомбинат №102{% endblock %}
+{% block title %}Профиль - {{ current_user.company_name or ("Компания ИНН " ~ current_user.inn) }}{% endblock %}
 
 {% block content %}
 <div class="w-full max-w-[1400px] mx-auto space-y-8 pb-20">
@@ -16,29 +16,29 @@
 
         <div class="flex flex-col justify-center flex-1">
             <h1 class="text-5xl font-bold tracking-tight mb-8 leading-tight">
-                Тувинский обл.<br>Мясокомбинат №102
+                {{ current_user.company_name or "Компания" }}<br>{{ current_user.region or "Регион не указан" }}
             </h1>
 
             <div class="grid grid-cols-2 gap-x-16 gap-y-2 max-w-3xl">
                 <div class="flex justify-between border-b border-white/5 py-1">
                     <span class="text-white/30 uppercase text-xs tracking-widest font-bold">ИНН</span>
-                    <span class="text-white/80">213412521412532</span>
+                    <span class="text-white/80">{{ current_user.inn }}</span>
                 </div>
                 <div class="flex justify-between border-b border-white/5 py-1">
                     <span class="text-white/30 uppercase text-xs tracking-widest font-bold">ОГРН</span>
-                    <span class="text-white/80">1027700132195</span>
+                    <span class="text-white/80">—</span>
                 </div>
                 <div class="flex justify-between border-b border-white/5 py-1">
                     <span class="text-white/30 uppercase text-xs tracking-widest font-bold">Регион</span>
-                    <span class="text-white/80">Республика Тыва</span>
+                    <span class="text-white/80">{{ current_user.region or "Не указан" }}</span>
                 </div>
                 <div class="flex justify-between border-b border-white/5 py-1">
                     <span class="text-white/30 uppercase text-xs tracking-widest font-bold">ОКПД2</span>
-                    <span class="text-white/80">10.11.31.110</span>
+                    <span class="text-white/80">{{ (current_user.okpd2_codes|join(', ')) if current_user.okpd2_codes else "Не заполнено" }}</span>
                 </div>
                 <div class="flex justify-between border-b border-white/5 py-1">
                     <span class="text-white/30 uppercase text-xs tracking-widest font-bold">Статус</span>
-                    <span class="text-green-400 font-bold">Активен</span>
+                    <span class="text-green-400 font-bold">{{ "Активен" if current_user.is_active else "Отключен" }}</span>
                 </div>
                 <div class="flex justify-between border-b border-white/5 py-1">
                     <span class="text-white/30 uppercase text-xs tracking-widest font-bold">ЕИС</span>
