@@ -18,18 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/api/register', {
                 method: 'POST',
-                body: formData // Передаем как FormData для поддержки файлов
+                body: formData,
+                credentials: 'same-origin'
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                if (data.access_token) {
-                    // ПРИСВАИВАЕМ ТОКЕН В ПАМЯТЬ БРАУЗЕРА
-                    localStorage.setItem('token', data.access_token);
-                    console.log("Регистрация успешна, токен присвоен");
-                    window.location.href = '/feed'; // Переходим на ленту
-                }
+                window.location.href = '/feed';
             } else {
                 alert(data.detail || "Ошибка при регистрации");
             }
