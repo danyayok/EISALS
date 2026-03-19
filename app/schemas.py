@@ -6,7 +6,6 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 INN_PATTERN = r"^(\d{10}|\d{12})$"
 PHONE_PATTERN = r"^7\d{10}$"
-PASSWORD_PATTERN = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,128}$"
 
 
 class Token(BaseModel):
@@ -25,8 +24,23 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str = Field(..., pattern=PASSWORD_PATTERN, min_length=8, max_length=128)
+    password: str = Field(..., min_length=8, max_length=128)
     phone: Optional[str] = Field(default=None, pattern=PHONE_PATTERN)
+
+    @field_validator("password")
+    @classmethod
+    def validate_password_complexity(cls, value: str) -> str:
+        has_lower = any(ch.islower() for ch in value)
+        has_upper = any(ch.isupper() for ch in value)
+        has_digit = any(ch.isdigit() for ch in value)
+        has_special = any(not ch.isalnum() for ch in value)
+
+        if not (has_lower and has_upper and has_digit and has_special):
+            raise ValueError(
+                "Пароль должен содержать строчные и заглавные буквы, цифры и спецсимволы"
+            )
+
+        return value
 
 
 class UserLogin(BaseModel):
