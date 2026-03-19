@@ -3,6 +3,11 @@
 
 {% block content %}
 <div class="flex flex-col w-full max-w-[1400px] mx-auto gap-8 pb-10">
+    <div class="w-full bg-[#000822] border-4 border-[#000412] rounded-xl p-6">
+        <p class="text-white/50 uppercase tracking-wider text-sm">Личный кабинет</p>
+        <h1 class="text-3xl font-bold mt-2">{{ current_user.company_name or ("Компания ИНН " ~ current_user.inn) }}</h1>
+        <p class="text-white/60 mt-2">ИНН: <span class="font-mono">{{ current_user.inn }}</span></p>
+    </div>
 
     <!-- ВЕРХНИЙ РЯД: ГЛАВНЫЙ ТЕНДЕР И КОНКУРЕНЦИЯ -->
     <div class="flex flex-col lg:flex-row gap-6 w-full">
