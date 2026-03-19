@@ -1,132 +1,109 @@
-import os
-import shutil
+import re
+from datetime import timedelta
 
-from fastapi.responses import HTMLResponse
-from fastapi.requests import Request
-from app.templates import templates
-from fastapi import APIRouter, Depends, Form, File, UploadFile, HTTPException, status
+from fastapi import APIRouter, Depends, Form, HTTPException, Response, status
+from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
-from app import crud, schemas
+from starlette.responses import JSONResponse
+
+from app import auth, crud, schemas
+from app.config import settings
 from app.database import get_db
-# from app.dependencies import get_current_user
 
 router = APIRouter(prefix="/api", tags=["Auth"])
-
-from datetime import timedelta
-from app.config import settings
-from app import auth  # Твой файл с функцией create_access_token
 
 
 @router.post("/register")
 async def register_user(
-        inn: str = Form(...),
-        email: str = Form(...),
-        password: str = Form(...),
-        phone: str = Form(...),  # Принимаем телефон из формы
-        agree_conf: bool = Form(False),
-        avatar: UploadFile = File(None),  # Принимаем файл
-        db: AsyncSession = Depends(get_db)
+    inn: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    phone: str = Form(...),
+    agree_conf: bool = Form(False),
+    db: AsyncSession = Depends(get_db),
 ):
     if not agree_conf:
         raise HTTPException(status_code=400, detail="Необходимо согласие с правилами")
 
-    existing_user = await crud.get_user_by_inn(db, inn=inn)
+    sanitized_phone = re.sub(r"\D", "", phone)
+    user_payload = {
+        "inn": inn,
+        "email": email,
+        "password": password,
+        "phone": sanitized_phone,
+        "company_name": f"Компания ИНН {inn}",
+    }
+
+    try:
+        user_create_data = schemas.UserCreate(**user_payload)
+    except ValidationError:
+        raise HTTPException(status_code=422, detail="Некорректные данные регистрации")
+
+    existing_user = await crud.get_user_by_inn(db, inn=user_create_data.inn)
     if existing_user:
         raise HTTPException(status_code=400, detail="Пользователь с таким ИНН уже существует")
 
-    user_create_data = schemas.UserCreate(
-        inn=inn,
-        email=email,
-        password=password,
-        company_name=f"Компания ИНН {inn}"
-    )
-
     new_user = await crud.create_user(db, user_data=user_create_data)
+    if user_create_data.phone:
+        new_user.phone_number = user_create_data.phone
+        await db.commit()
 
-    clean_phone = "".join(filter(str.isdigit, phone))
-    if clean_phone:
-        try:
-            new_user.phone_number = str(clean_phone) if clean_phone.isdigit() else None
-        except Exception:
-            pass
-
-    # if avatar and avatar.filename:
-    #     upload_dir = "app/static/users/avas"
-    #     os.makedirs(upload_dir, exist_ok=True)
-    #
-    #     file_ext = avatar.filename.split(".")[-1]
-    #     file_path = f"{upload_dir}/{new_user.id}_avatar.{file_ext}"
-    #
-    #     with open(file_path, "wb") as buffer:
-    #         shutil.copyfileobj(avatar.file, buffer)
-
-        # new_user.avatar_url = file_path
-    await db.commit()
-
-    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = auth.create_access_token(
         data={"sub": new_user.inn},
-        expires_delta=access_token_expires
+        expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     )
 
-    return {
-        "status": "success",
-        "user_id": new_user.id,
-        "access_token": access_token,
-        "token_type": "bearer"
-    }
-
-
-@router.post("/login", response_model=schemas.Token)
-async def login(
-        inn: str = Form(...),
-        password: str = Form(...),
-        db: AsyncSession = Depends(get_db)
-):
-    user = await crud.authenticate_user(db, inn=inn, password=password)
-
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Неверный ИНН или пароль"
-        )
-    access_token = auth.create_access_token(data={"sub": user.inn})
-    response = {"access_token": access_token, "token_type": "bearer"}
+    response = JSONResponse(
+        {
+            "status": "success",
+            "user_id": new_user.id,
+            "access_token": access_token,
+            "token_type": "bearer",
+        }
+    )
     response.set_cookie(
         key="access_token",
         value=access_token,
         httponly=True,
-        secure=False,  # True на проде (https)
-        samesite="lax"
+        secure=settings.COOKIE_SECURE,
+        samesite="lax",
+        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        path="/",
     )
     return response
 
-#
-#
-# # @router.post("/login", response_model=schemas.Token)
-# # async def login_for_access_token(
-# #         form_data: schemas.UserLogin,
-# #         db: AsyncSession = Depends(get_db)
-# # ):
-# #     """Вход в систему, получение JWT токена"""
-# #     user = await crud.authenticate_user(
-# #         db, form_data.inn, form_data.password
-# #     )
-# #
-# #     if not user:
-# #         raise HTTPException(
-# #             status_code=status.HTTP_401_UNAUTHORIZED,
-# #             detail="Неправильный ИНН или пароль",
-# #             headers={"WWW-Authenticate": "Bearer"},
-# #         )
-# #
-# #     # Создаем токен
-# #     access_token_expires = timedelta(
-# #         minutes=auth.settings.ACCESS_TOKEN_EXPIRE_MINUTES
-# #     )
-# #     access_token = auth.create_access_token(
-# #         data={"sub": user.inn},
-# #         expires_delta=access_token_expires
-# #     )
-# #
-# #     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.post("/login", response_model=schemas.Token)
+async def login(
+    inn: str = Form(...),
+    password: str = Form(...),
+    db: AsyncSession = Depends(get_db),
+):
+    try:
+        login_data = schemas.UserLogin(inn=inn, password=password)
+    except ValidationError:
+        raise HTTPException(status_code=422, detail="Некорректный формат ИНН или пароля")
+
+    user = await crud.authenticate_user(db, inn=login_data.inn, password=login_data.password)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный ИНН или пароль")
+
+    access_token = auth.create_access_token(data={"sub": user.inn})
+    response = JSONResponse({"access_token": access_token, "token_type": "bearer"})
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=settings.COOKIE_SECURE,
+        samesite="lax",
+        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        path="/",
+    )
+    return response
+
+
+@router.post("/logout", status_code=204)
+async def logout() -> Response:
+    response = Response(status_code=204)
+    response.delete_cookie("access_token", path="/")
+    return response

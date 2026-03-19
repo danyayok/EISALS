@@ -51,7 +51,7 @@
             <div class="grid grid-cols-1 gap-[20px]">
                 <div class="space-y-2">
                     <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">ИНН организации</p>
-                    <input type="text" id="inn" name="inn" required maxlength="12" placeholder="10 или 12 цифр" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono">
+                    <input type="text" id="inn" name="inn" required maxlength="12" pattern="^(\d{10}|\d{12})$" inputmode="numeric" autocomplete="username" placeholder="10 или 12 цифр" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono">
                 </div>
 
                 <div class="flex flex-col xl:flex-row gap-[20px]">
@@ -61,7 +61,7 @@
                     </div>
                     <div class="flex-1 space-y-1">
                         <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">Телефон</p>
-                        <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___" class="w-full px-[20px] py-[12px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono">
+                        <input type="tel" id="phone" name="phone" required pattern="^\+7 \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}$" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___" class="w-full px-[20px] py-[12px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono">
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="space-y-6">
                 <div class="space-y-3">
                     <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">Новый пароль</p>
-                    <input type="password" id="password" name="password" required placeholder="Пароль" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all">
+                    <input type="password" id="password" name="password" required minlength="8" maxlength="128" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,128}$" autocomplete="new-password" placeholder="Пароль" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all">
                     <div id="strength-wrapper" class="px-2 opacity-0 transition-opacity duration-300">
                         <div class="flex justify-between items-center mb-1">
                             <span id="strength-text" class="text-[11px] uppercase tracking-widest font-bold">Сложность</span>
@@ -84,7 +84,7 @@
 
                 <div class="space-y-3">
                     <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">Подтверждение</p>
-                    <input type="password" id="confirm_password" required placeholder="Повторите ввод" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none transition-all">
+                    <input type="password" id="confirm_password" required minlength="8" maxlength="128" autocomplete="new-password" placeholder="Повторите ввод" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none transition-all">
                     <p id="match-message" class="text-[11px] uppercase tracking-[0.1em] font-bold ml-2 opacity-0">Пароли не совпадают</p>
                 </div>
             </div>

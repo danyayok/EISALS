@@ -1,37 +1,47 @@
-from typing import Annotated # Рекомендуется в современных версиях
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from typing import Annotated, Optional
+
+from fastapi import Cookie, Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app import crud
 from app.auth import verify_token
 from app.database import get_db
-from app import crud
-from app.models import User # Импорт модели БД
+from app.models import User
 
-security = HTTPBearer(auto_error=True)
+security = HTTPBearer(auto_error=False)
+
+
+async def get_token_from_request(
+    credentials: Annotated[Optional[HTTPAuthorizationCredentials], Depends(security)],
+    access_token: Annotated[Optional[str], Cookie()] = None,
+) -> str:
+    if credentials and credentials.credentials:
+        return credentials.credentials
+    if access_token:
+        return access_token
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Требуется авторизация",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
 
 async def get_current_user(
-    credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)],
-    db: Annotated[AsyncSession, Depends(get_db)]
+    token: Annotated[str, Depends(get_token_from_request)],
+    db: Annotated[AsyncSession, Depends(get_db)],
 ) -> User:
-
-    token_data = await verify_token(credentials.credentials)
-
+    token_data = await verify_token(token)
     user = await crud.get_user_by_inn(db, inn=token_data.inn)
 
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Пользователь не найден"
-        )
-
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Пользователь не найден")
     if not user.is_active:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Аккаунт деактивирован"
-        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Аккаунт деактивирован")
 
     return user
+
 
 class RoleChecker:
     def __init__(self, allowed_roles: list[str]):
@@ -41,6 +51,6 @@ class RoleChecker:
         if user.role not in self.allowed_roles:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Доступ запрещен. Требуемые роли: {self.allowed_roles}"
+                detail=f"Доступ запрещен. Требуемые роли: {self.allowed_roles}",
             )
         return user
