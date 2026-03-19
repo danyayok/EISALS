@@ -10,9 +10,10 @@ from contextlib import asynccontextmanager
 
 from starlette.responses import JSONResponse
 
+from app.database import engine, Base
 from app.templates import templates
 # from app.database import engine, Base
-from app.routers.v1 import auth_pages, pages #, profile, tenders, analytics
+from app.routers.v1 import pages, auth #, profile, tenders, analytics
 from app.config import settings
 # from app.parsers.eis_parser import EISParser
 
@@ -26,8 +27,9 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Создание таблиц БД...")
-    # async with engine.begin() as conn:
-    #     await conn.run_sync(Base.metadata.create_all)
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
 
     logger.info("Запуск парсера ЕИС...")
     # сюда закидывать всякие задачки и прочее
@@ -58,7 +60,7 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(pages.router)
-# app.include_router(auth.router)
+app.include_router(auth.router)
 # app.include_router(profile.router)
 # app.include_router(tenders.router)
 

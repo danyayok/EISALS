@@ -8,3 +8,5 @@ starlette
 pydantic-settings
 jinja2
 pydantic[email]
+asyncpg
+python-multipart

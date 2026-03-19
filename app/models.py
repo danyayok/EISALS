@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column, Integer, String, Float, Boolean,
-    DateTime, ForeignKey, Text, ARRAY, JSON, column
+    DateTime, ForeignKey, Text, ARRAY, JSON, column, BIGINT
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -14,7 +14,7 @@ class User(Base):
 
     company_name = Column(String(255), unique=True, index=True)
     email = Column(String(255), unique=True, index=True)
-    phone_number = Column(Integer(), unique=True, index=True)
+    phone_number = Column(String(20), unique=True, index=True)
     hashed_password = Column(String(255))
     region = Column(String(100))
     okpd2_codes = Column(ARRAY(String))
@@ -28,7 +28,7 @@ class User(Base):
     profile = relationship("CompanyProfile", back_populates="user")
     contracts = relationship("Contract", back_populates="supplier")
     posts = relationship("CompanyPost", back_populates="company")
-    notifications = relationship("Notification", back_populates="user")
+    # notifications = relationship("Notification", back_populates="user")
 
 class CompanyProfile(Base):
     __tablename__ = "company_profiles"

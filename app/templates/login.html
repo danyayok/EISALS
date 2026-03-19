@@ -10,6 +10,7 @@
         method="POST"
         action="/api/login"
         class="w-[500px] border-[5px] border-white rounded-[40px] p-[50px] flex flex-col gap-[35px] bg-white/[0.02] backdrop-blur-md shadow-2xl transition-all duration-500 hover:border-white/90"
+        id="login-form"
     >
         <div class="flex flex-col items-center gap-2">
             <h1 class="text-[48px] font-black uppercase tracking-tighter text-center leading-tight">
@@ -19,19 +20,20 @@
         </div>
 
         <div class="flex flex-col gap-[25px]">
-            <!-- Поле E-mail -->
             <div class="flex flex-col gap-[10px]">
-                <label class="text-[12px] uppercase tracking-[0.3em] font-bold text-white/30 ml-3">Электронная почта</label>
+                <label class="text-[12px] uppercase tracking-[0.3em] font-bold text-white/30 ml-3">ИНН организации</label>
                 <input
-                    type="email"
-                    name="email"
+                    type="text"
+                    id="inn"
+                    name="inn"
                     required
-                    placeholder="example@mail.com"
-                    class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 focus:bg-white/10 transition-all placeholder:text-white/10"
+                    minlength="10"
+                    maxlength="12"
+                    placeholder="10 или 12 цифр"
+                    class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 focus:bg-white/10 transition-all placeholder:text-white/10 font-mono"
                 />
             </div>
 
-            <!-- Поле Пароль -->
             <div class="flex flex-col gap-[10px]">
                 <label class="text-[12px] uppercase tracking-[0.3em] font-bold text-white/30 ml-3">Пароль доступа</label>
                 <input
@@ -44,7 +46,6 @@
             </div>
         </div>
 
-        <!-- Опции: Запомнить меня -->
         <div class="flex items-center justify-center gap-[12px] group cursor-pointer">
             <input
                 type="checkbox"
@@ -77,4 +78,6 @@
         </div>
     </form>
 </div>
+
+<script src="{{ url_for('static', path='js/login.js') }}"> </script>
 {% endblock %}

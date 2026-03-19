@@ -1,3 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+
+@source "../../templates/**/*.html";
+@source "../../**/*.py";
+
+@theme {
+  --font-jost: "Jost", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-[#070F2B] text-white font-jost;
+    margin: 0;
+  }
+}
