@@ -6,8 +6,7 @@
     <title>{% block title %}Дэшборд — EISALS{% endblock %}</title>
     <link rel="icon" href="{{ url_for('static', path='images/favicon.png') }}" type="image/png" />
 
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com" rel="stylesheet" />
@@ -15,16 +14,13 @@
     <style>
         body { font-family: 'Jost', Arial, sans-serif; }
 
-        /* Скрываем скроллбар в меню */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Тонкий скроллбар для контента */
         .content-scroll::-webkit-scrollbar { width: 6px; }
         .content-scroll::-webkit-scrollbar-track { background: transparent; }
         .content-scroll::-webkit-scrollbar-thumb { background: #142A74; border-radius: 10px; }
 
-        /* Эффект для активных ссылок */
         .nav-link:hover img { filter: drop-shadow(0 0 8px rgba(255,255,255,0.2)); }
     </style>
 </head>

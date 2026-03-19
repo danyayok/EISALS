@@ -53,6 +53,3 @@ async def dashboard(request: Request):
 @router.get("/dashboard/company", response_class=HTMLResponse)
 async def own_profile(request: Request):
     return templates.TemplateResponse("company.html", context={"request": request})
-# @router.get("/register", response_class=HTMLResponse)
-# async def login_page(request: Request):
-#     return templates.TemplateResponse("register.html", context={"request": request})
