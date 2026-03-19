@@ -71,14 +71,6 @@ async def own_profile(request: Request, db: AsyncSession = Depends(get_db)):
     return await render_protected_page(request, "profile.html", current_user)
 
 
-@router.get("/cab", response_class=HTMLResponse)
-async def cabinet(request: Request, db: AsyncSession = Depends(get_db)):
-    current_user = await get_current_user_for_page(request, db)
-    if not current_user:
-        return RedirectResponse(url="/login", status_code=302)
-    return RedirectResponse(url="/profile", status_code=302)
-
-
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request, db: AsyncSession = Depends(get_db)):
     current_user = await get_current_user_for_page(request, db)
