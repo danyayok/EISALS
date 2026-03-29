@@ -7,8 +7,8 @@ from bcrypt import checkpw, gensalt, hashpw
 from fastapi import HTTPException, status
 from pydantic import ValidationError
 
-from app.config import settings
-from app.schemas import TokenData
+from app.core.config import settings
+from app.models.schemas import TokenData
 
 
 def get_password_hash(password: str) -> str:

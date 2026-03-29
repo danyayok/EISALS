@@ -6,9 +6,11 @@ from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import JSONResponse
 
-from app import auth, crud, schemas
-from app.config import settings
-from app.database import get_db
+from app.models import schemas
+from app.core import crud
+from app.services import auth
+from app.core.config import settings
+from app.core.database import get_db
 
 router = APIRouter(prefix="/api", tags=["Auth"])
 
@@ -16,6 +18,7 @@ router = APIRouter(prefix="/api", tags=["Auth"])
 @router.post("/register")
 async def register_user(
     inn: str = Form(...),
+    kpp: str = Form(...),
     email: str = Form(...),
     password: str = Form(...),
     phone: str = Form(...),
@@ -28,6 +31,7 @@ async def register_user(
     sanitized_phone = re.sub(r"\D", "", phone)
     user_payload = {
         "inn": inn,
+        "kpp": kpp,
         "email": email,
         "password": password,
         "phone": sanitized_phone,
@@ -60,15 +64,6 @@ async def register_user(
             "access_token": access_token,
             "token_type": "bearer",
         }
-    )
-    response.set_cookie(
-        key="access_token",
-        value=access_token,
-        httponly=True,
-        secure=settings.COOKIE_SECURE,
-        samesite="lax",
-        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
-        path="/",
     )
     return response
 

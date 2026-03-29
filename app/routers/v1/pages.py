@@ -5,11 +5,11 @@ from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import crud
-from app.auth import verify_token
-from app.database import get_db
-from app.models import User
-from app.templates import templates
+from app.core import crud
+from app.services.auth import verify_token
+from app.core.database import get_db
+from app.models.models import User
+from app.core.templates import templates
 
 router = APIRouter(tags=["HTML pages"])
 

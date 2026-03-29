@@ -1,19 +1,24 @@
-from typing import Optional, List, Any
-from decimal import Decimal
-from datetime import datetime, timedelta, timezone
+from typing import Optional, List
+from datetime import datetime, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update, delete, func, and_, or_
+from sqlalchemy import select, and_
 from sqlalchemy.orm import selectinload
 
-from app import models, schemas
-from app.auth import get_password_hash, verify_password
+from app.models import models, schemas
+from app.services.auth import get_password_hash, verify_password
 
-async def get_user_by_inn(db: AsyncSession, inn: str) -> Optional[models.User]:
-    result = await db.execute(
+async def get_user_by_inn(db: AsyncSession, inn: str, kpp: str) -> Optional[models.User]:
+    filters = [models.User.inn == inn]
+    if kpp:
+        filters.append(models.User.kpp == kpp)
+
+    query = (
         select(models.User)
         .options(selectinload(models.User.profile))
-        .where(models.User.inn == inn)
+        .where(and_(*filters))
     )
+
+    result = await db.execute(query)
     return result.scalar_one_or_none()
 
 async def create_user(db: AsyncSession, user_data: schemas.UserCreate) -> models.User:
@@ -37,8 +42,8 @@ async def create_user(db: AsyncSession, user_data: schemas.UserCreate) -> models
         await db.rollback()
         raise e
 
-async def authenticate_user(db: AsyncSession, inn: str, password: str) -> Optional[models.User]:
-    user = await get_user_by_inn(db, inn)
+async def authenticate_user(db: AsyncSession, inn: str, kpp: str, password: str) -> Optional[models.User]:
+    user = await get_user_by_inn(db, inn, kpp)
     if not user or not verify_password(password, user.hashed_password):
         return None
     return user

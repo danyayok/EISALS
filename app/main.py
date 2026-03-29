@@ -1,9 +1,7 @@
 import uvicorn
 
-from fastapi import FastAPI, Request, Depends
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 import logging
@@ -11,11 +9,10 @@ from contextlib import asynccontextmanager
 
 from starlette.responses import JSONResponse
 
-from app.database import engine, Base
-from app.templates import templates
+from app.core.database import engine, Base
 # from app.database import engine, Base
 from app.routers.v1 import pages, auth #, profile, tenders, analytics
-from app.config import settings
+from app.core.config import settings
 # from app.parsers.eis_parser import EISParser
 
 logging.basicConfig(
