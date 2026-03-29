@@ -3,7 +3,6 @@
 
 {% block content %}
 <div class="w-full flex justify-center py-7 relative">
-    <!-- Фоновое свечение -->
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-blue-600/10 blur-[150px] -z-10"></div>
 
     <form
@@ -13,7 +12,6 @@
         enctype="multipart/form-data"
         class="w-[80vw] max-w-[1100px] flex flex-col md:flex-row gap-[60px] border-[5px] border-white rounded-[40px] p-[50px] bg-white/[0.02] backdrop-blur-md shadow-2xl"
     >
-        <!-- ЛЕВАЯ КОЛОНКА (Аватар + Чекбоксы) -->
         <div class="flex flex-col items-center gap-[30px] w-[320px] shrink-0">
             <div class="relative group">
                 <div class="absolute -inset-2 bg-white/20 rounded-[30px] blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
@@ -44,16 +42,32 @@
             </div>
         </div>
 
-        <!-- ПРАВАЯ КОЛОНКА (Поля ввода) -->
         <div class="flex-1 flex flex-col gap-[25px]">
             <h2 class="text-[48px] font-black uppercase tracking-tighter mb-4 text-white">Создать аккаунт</h2>
 
             <div class="grid grid-cols-1 gap-[20px]">
-                <div class="space-y-2">
-                    <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">ИНН организации</p>
-                    <input type="text" id="inn" name="inn" required maxlength="12" pattern="^(\d{10}|\d{12})$" inputmode="numeric" autocomplete="username" placeholder="10 или 12 цифр" class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono">
+                <div class="grid grid-cols-1 gap-[25px]">
+                    <div class="space-y-2 group">
+                        <div class="flex justify-between items-end px-2">
+                            <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 group-focus-within:text-blue-400 transition-colors">
+                                ИНН организации <span class="text-blue-500 shadow-blue-500 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]">*</span>
+                            </p>
+                            <span class="text-[10px] text-white/10 uppercase tracking-widest">Обязательно</span>
+                        </div>
+                        <input type="text" id="inn" name="inn" required maxlength="12" pattern="^(\d{10}|\d{12})$" inputmode="numeric" placeholder="10 или 12 цифр"
+                               class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono">
+                    </div>
+                    <div id="kpp-block" class="space-y-2 group transition-all duration-500">
+                        <div class="flex justify-between items-end px-2">
+                            <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 group-focus-within:text-blue-400 transition-colors">
+                                КПП организации <span id="kpp-star" class="hidden text-blue-500 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]">*</span>
+                            </p>
+                            <span id="kpp-status" class="text-[10px] text-white/10 uppercase tracking-widest italic">Необязательно для ИП</span>
+                        </div>
+                        <input type="text" id="kpp" name="kpp" maxlength="9" pattern="^\d{9}$" inputmode="numeric" placeholder="9 цифр"
+                               class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono">
+                    </div>
                 </div>
-
                 <div class="flex flex-col xl:flex-row gap-[20px]">
                     <div class="flex-1 space-y-1">
                         <p class="text-[14px] uppercase tracking-[0.3em] font-bold text-white/30 ml-2">E-mail</p>
