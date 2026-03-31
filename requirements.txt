@@ -1,12 +1,15 @@
 PyJWT
 bcrypt
-fastapi
+fastapi==0.104.1
 pydantic
 SQLAlchemy
 uvicorn
-starlette
+starlette==0.27.0
 pydantic-settings
 jinja2
 pydantic[email]
 asyncpg
 python-multipart
+bs4
+# curl_cff
+# lxml

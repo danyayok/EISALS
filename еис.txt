@@ -1,0 +1,18 @@
+Реестр заказчиков по ИНН
+https://zakupki.gov.ru/epz/customer223/search/results.html?searchString=7707083893&morphology=on&search-filter=%D0%94%D0%B0%D1%82%D0%B5+%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%89%D0%B5%D0%BD%D0%B8%D1%8F&pageNumber=1&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&sortBy=NAME&customer223Status_0=on&customer223Status=0&organizationRoleValueIdNameHidden=%7B%7D
+
+Реестр организаций
+https://zakupki.gov.ru/epz/organization/search/results.html?searchString=7707083893&morphology=on&fz94=on&fz223=on&F=on&S=on&M=on&NOT_FSM=on&registered94=on&notRegistered=on&sortBy=NAME&pageNumber=1&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false
+
+Страница компании
+https://zakupki.gov.ru/epz/organization/view223/info.html?inn=7707083893&kpp=773601001&ogrn=1027700132195
+https://zakupki.gov.ru/epz/organization/view223/info.html?viewEsia=&tab=info&agencyId=12450
+https://zakupki.gov.ru/epz/organization/view223/info.html?viewEsia=&tab=other&agencyId=12450
+https://zakupki.gov.ru/epz/organization/view223/info.html?viewEsia=&tab=journal&agencyId=12450
+
+Поиск по всем закупочным тендерам сбера
+https://zakupki.gov.ru/epz/order/extendedsearch/results.html?searchString=&morphology=on&search-filter=%D0%94%D0%B0%D1%82%D0%B5+%D0%BE%D0%B1%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F&pageNumber=2&sortDirection=false&recordsPerPage=_50&showLotsInfoHidden=false&savedSearchSettingsIdHidden=&sortBy=UPDATE_DATE&fz44=on&fz223=on&ppRf615=on&af=on&ca=on&pc=on&pa=on&placingWayList=&selectedLaws=&priceFromGeneral=0&priceFromGWS=&priceFromUnitGWS=&priceToGeneral=10000000000&priceToGWS=&priceToUnitGWS=&currencyIdGeneral=1&publishDateFrom=01.03.1998&publishDateTo=&applSubmissionCloseDateFrom=&applSubmissionCloseDateTo=&customerIdOrg=%3A%D0%9F%D0%A3%D0%91%D0%9B%D0%98%D0%A7%D0%9D%D0%9E%D0%95+%D0%90%D0%9A%D0%A6%D0%98%D0%9E%D0%9D%D0%95%D0%A0%D0%9D%D0%9E%D0%95+%D0%9E%D0%91%D0%A9%D0%95%D0%A1%D0%A2%D0%92%D0%9E+%22%D0%A1%D0%91%D0%95%D0%A0%D0%91%D0%90%D0%9D%D0%9A+%D0%A0%D0%9E%D0%A1%D0%A1%D0%98%D0%98%22zZnullzZzZ12450zZ7707083893&okpd2Ids=&okpd2IdsCodes=
+
+
+Поиск недобросоветсного поставщика по ИНН
+https://zakupki.gov.ru/epz/dishonestsupplier/search/results.html?searchString=190332352976&morphology=on&search-filter=%D0%94%D0%B0%D1%82%D0%B5+%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%89%D0%B5%D0%BD%D0%B8%D1%8F&sortBy=UPDATE_DATE&pageNumber=1&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz94=on&fz223=on&ppRf615=on&inclusionDateFrom=01.03.2000
