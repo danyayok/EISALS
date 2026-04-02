@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Главная{% endblock %}</title>
+    <meta name="description" content="{% block description %}Профессиональный сервис атомарного анализа рынков, тендеров и тендерных тенденций. Статистика ОКПД2 в реальном времени.{% endblock %}" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eisals.ru{{ request.url.path }}">
+    <meta property="og:title" content="{{ self.title() }}">
+    <meta property="og:description" content="Атомарный анализ госзакупок и мониторинг рынков.">
+    <meta property="og:image" content="{{ url_for('static', path='images/logo.png') }}">
+
+
+
+    <link rel="canonical" href="https://eisals.ru{{ request.url.path }}" />
     <link rel="icon" href="{{ url_for('static', path='images/favicon.png') }}" type="image/png" />
 
     <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
@@ -93,17 +103,17 @@
             <div class="flex flex-col items-center gap-4">
                 <p class="text-[24px] uppercase tracking-[0.4em] font-bold text-white/30">Связь с нами</p>
                 <div class="flex gap-[30px] justify-center">
-                    <a target="_blank" href="https://discordapp.com" class="hover:-translate-y-2 transition-transform duration-300">
-                        <img class="w-[60px] h-[60px] object-contain drop-shadow-xl" src="{{ url_for('static', path='images/discord.png') }}">
+                    <a target="_blank" href="https://discordapp.com" aria-label="Связаться в Discord" class="hover:-translate-y-2 transition-transform duration-300">
+                        <img class="w-[60px] h-[60px] object-contain drop-shadow-xl" src="{{ url_for('static', path='images/discord.png') }}" alt="Discord">
                     </a>
-                    <a target="_blank" href="https://t.me" class="hover:-translate-y-2 transition-transform duration-300">
-                        <img class="w-[60px] h-[60px] object-contain drop-shadow-xl" src="{{ url_for('static', path='images/tg.png') }}">
+                    <a target="_blank" href="https://t.me" aria-label="Связаться в Telegram" class="hover:-translate-y-2 transition-transform duration-300">
+                        <img class="w-[60px] h-[60px] object-contain drop-shadow-xl" src="{{ url_for('static', path='images/tg.png') }}" alt="Telegram">
                     </a>
-                    <a target="_blank" href="https://github.com" class="hover:-translate-y-2 transition-transform duration-300">
-                        <img class="w-[60px] h-[60px] object-contain drop-shadow-xl" src="{{ url_for('static', path='images/git.png') }}">
+                    <a target="_blank" href="https://github.com" aria-label="Github разработчика" class="hover:-translate-y-2 transition-transform duration-300">
+                        <img class="w-[60px] h-[60px] object-contain drop-shadow-xl" src="{{ url_for('static', path='images/git.png') }}" alt="Github">
                     </a>
-                    <a target="_blank" href="https://mail.google.com" class="hover:-translate-y-2 transition-transform duration-300">
-                        <img class="w-[60px] h-[60px] object-contain drop-shadow-xl" src="{{ url_for('static', path='images/gmail.png') }}">
+                    <a target="_blank" href="https://mail.google.com" aria-label="Связаться через почту" class="hover:-translate-y-2 transition-transform duration-300">
+                        <img class="w-[60px] h-[60px] object-contain drop-shadow-xl" src="{{ url_for('static', path='images/gmail.png') }}" alt="Почта">
                     </a>
                 </div>
             </div>
