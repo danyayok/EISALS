@@ -1,0 +1,16 @@
+User-agent: *
+Crawl-delay: 2
+Allow: /
+Allow: /feed
+Allow: /static/
+Disallow: /profile
+Disallow: /api/
+Disallow: /login
+Disallow: /*?*
+
+User-agent: Yandex
+Crawl-delay: 3
+Clean-param: ref /
+
+Sitemap: https://eisals.ru
+Host: https://eisals.ru
