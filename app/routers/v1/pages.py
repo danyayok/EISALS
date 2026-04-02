@@ -10,8 +10,33 @@ from app.services.auth import verify_token
 from app.core.database import get_db
 from app.models.models import User
 from app.core.templates import templates
+from fastapi.responses import PlainTextResponse
 
 router = APIRouter(tags=["HTML pages"])
+
+
+
+@router.get("/robots.txt", response_class=PlainTextResponse)
+def robots_txt():
+    lines = [
+        "User-agent: *",
+        "Crawl-delay: 2",       # Пауза 2 секунды (робот будет качать не более 30 стр/мин)
+        "Allow: /",
+        "Allow: /feed",
+        "Allow: /static/",
+        "Disallow: /profile",
+        "Disallow: /api/",
+        "Disallow: /login",
+        "Disallow: /*?*",       # Критично: не даем роботу бесконечно перебирать фильтры
+        "",
+        "User-agent: Yandex",    # Яндекс очень внимателен к Crawl-delay
+        "Crawl-delay: 3",       # Для Яндекса чуть медленнее (раз в 3 сек)
+        "Clean-param: ref /",    # Убирает мусорные метки из URL для Яндекса
+        "",
+        "Sitemap: https://eisals.ru",
+        "Host: https://eisals.ru"
+    ]
+    return "\n".join(lines)
 
 
 @router.get("/", response_class=HTMLResponse)
