@@ -41,6 +41,7 @@ class EISParser:
 async def main():
     parser = EISParser()
     inn = "7707083893"
+    # 1. Сбор информации о компании по ИНН
     search_url = f"https://zakupki.gov.ru/epz/organization/search/results.html?searchString={inn}"
 
     soup = await parser.get_soup(search_url)
@@ -79,5 +80,11 @@ async def main():
                     data["zakupki44_link"] = right_block.find(string=re.compile("Закупки")).find_parent("a").get("href")
                     data["contracts44_link"] = right_block.find(string=re.compile("Контракты")).find_parent("a").get("href")
     print(data)
+
+    # 2. Сбор всех тендеров/контрактов
+    links = [data["zakupki223_link"], data["zakupki44_link"], data["contracts44_link"]]
+    for link in links:
+        if link:
+            s = await parser.get_soup(("https://zakupki.gov.ru"+link.replace("recordsPerPage=_10", "recordsPerPage=_50")))
 if __name__ == "__main__":
     asyncio.run(main())
