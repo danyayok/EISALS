@@ -1,99 +1,83 @@
-import random
 import asyncio
+import random
+import re
 from curl_cffi.requests import AsyncSession
 from bs4 import BeautifulSoup
-import re
 
-class EISFetcher:
-    def __init__(self):
-        self.headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-            "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
-            "Referer": "https://zakupki.gov.ru",
-        }
-
-    async def fetch(self, url: str):
-        async with AsyncSession(impersonate="chrome120") as s:
-            try:
-                await asyncio.sleep(random.uniform(2, 5))
-                response = await s.get(url, headers=self.headers, timeout=30)
-                if response.status_code == 200:
-                    return response.text
-                else:
-                    print(f"Ошибка доступа: {response.status_code}")
-                    return None
-            except Exception as e:
-                print(f"Сетевая ошибка: {e}")
-                return None
 
 class EISParser:
     def __init__(self):
-        self.placeholder = "let it be here"
+        self.headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36",
+            "Referer": "https://zakupki.gov.ru",
+        }
 
+    async def get_soup(self, url: str):
+        async with AsyncSession(impersonate="chrome120") as s:
+            try:
+                await asyncio.sleep(random.uniform(1, 3))
+                resp = await s.get(url, headers=self.headers, timeout=30)
+                return BeautifulSoup(resp.text, "lxml") if resp.status_code == 200 else None
+            except Exception as e:
+                print(f"Ошибка запроса: {e}")
+                return None
 
+    def get_text_by_label(self, soup, label):
+        """Ищет текст в следующем элементе после метки (label)"""
+        node = soup.find(string=re.compile(label))
+        if node and node.parent:
+            # Находим следующий сестринский элемент с текстом
+            sibling = node.parent.find_next_sibling()
+            return sibling.get_text("\n", strip=True) if sibling else "Не найдено"
+        return "Не найдено"
 
-
-    def replace_abbs(self, text):
-        abbs = [("ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО", "ПАО")]
-        for old, new in abbs:
-            if old in text:
-                text = text.replace(old, new)
-        return text
-
-
-    def get_name(self, card):
-        return self.replace_abbs(card.find("a").get_text(strip=True))
-
-
-    def find_brother(self, name: str, card):
-        brother = card.find(string=name).parent
-        return brother.find_next_sibling().get_text(strip=True)
-
-    def get_links(self, card):
-        tag = card.find("a")
-        if not tag:
-            return []
-        url = tag.get("href") or tag.get("onclick") or ""
-        if "getInformation" in url or "'" in url:
-            return re.findall(r"'(.*?)'", url)
-        if not url or url == "#":
-            return []
-        return [url]
-
+    def get_ids(self, card):
+        """Извлекает ID для ФЗ-223 и ФЗ-44 из ссылок/onclick"""
+        links = re.findall(r"Id=([a-fA-F0-9-]+|\d+)", str(card))
+        # Обычно первый ID — 223, второй — 44 (или наоборот, зависит от разметки)
+        return list(set(links))
 
 
 async def main():
-    fetcher = EISFetcher()
     parser = EISParser()
-    inn = 6163030517
-    url = f"https://zakupki.gov.ru/epz/organization/search/results.html?searchString={inn}&morphology=on&fz94=on&fz223=on&F=on&S=on&M=on&NOT_FSM=on&registered94=on&notRegistered=on&sortBy=NAME&pageNumber=1&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false"
+    inn = "7707083893"
+    search_url = f"https://zakupki.gov.ru/epz/organization/search/results.html?searchString={inn}"
 
-    html_content = await fetcher.fetch(url)
+    soup = await parser.get_soup(search_url)
+    card = soup.find("div", class_="search-registry-entry-block") if soup else None
 
-    if html_content:
+    if not card:
+        print("Организация не найдена")
+        return
 
-        print(f"Успешно получено {len(html_content)} символов")
-        # print(html_content)
-        soup = BeautifulSoup(html_content, "lxml")
-        cards = soup.find_all("div", class_="search-registry-entry-block box-shadow-search-input")
-        for card in cards:
-            inn = parser.find_brother(name="ИНН", card=card)
-            print(inn)
-            ogrn = parser.find_brother(name="ОГРН", card=card)
-            print(ogrn)
-            kpp = parser.find_brother(name="КПП", card=card)
-            print(kpp)
-            placement = parser.find_brother(name="Местонахождение", card=card)
-            print(placement)
-            data = parser.get_links(card=card)
-            print(data)
-            name = parser.get_name(card)
-            print(name)
+    data = {
+        "Название": card.find("a").get_text(strip=True),
+        "ИНН": parser.get_text_by_label(card, "ИНН"),
+        "КПП": parser.get_text_by_label(card, "КПП"),
+        "ОГРН": parser.get_text_by_label(card, "ОГРН"),
+        "Местонахождение": parser.get_text_by_label(card, "Местонахождение"),
+        "IDs": parser.get_ids(card),
+        "zakupki223_link": None,
+        "zakupki44_link": None,
+        "contracts44_link": None,
+    }
 
-        print("_______________")
-    print("Завершено")
+    # Собираем ОКВЭДы по всем найденным ID (и 223, и 44)
+    for org_id in data['IDs']:
+        for path in ["view223/info.html?agencyId=", "view/info.html?organizationId="]:
+            url = f"https://zakupki.gov.ru/epz/organization/{path}{org_id}"
+            s = await parser.get_soup(url)
+            if s:
+                okved = parser.get_text_by_label(s, "ОКВЭД|Коды основного вида деятельности")
+                if okved != "Не найдено":
+                    print(f"ОКВЭД по ссылке {org_id}: {okved}")
 
-
+                right_block = s.find("div", class_="search-results")
+                if "view223" in path:
+                    data["zakupki223_link"] = right_block.find(string=re.compile("Закупки")).find_parent("a").get("href")
+                else:
+                    data["zakupki44_link"] = right_block.find(string=re.compile("Закупки")).find_parent("a").get("href")
+                    data["contracts44_link"] = right_block.find(string=re.compile("Контракты")).find_parent("a").get("href")
+    print(data)
 if __name__ == "__main__":
     asyncio.run(main())
