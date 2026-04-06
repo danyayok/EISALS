@@ -44,7 +44,7 @@ class CompanyProfile(Base):
 
     full_name = Column(String(1000))
     short_name = Column(String(500))
-    ogrn = Column(String(15), index=True)  # Добавил ОГРН для полноты данных
+    ogrn = Column(String(15), index=True)
     legal_address = Column(String(1000))
     actual_address = Column(String(1000))
     phone = Column(String(50))
@@ -72,7 +72,7 @@ class CompanyPost(Base):
     company_id = Column(Integer, ForeignKey("users.id"))
 
     title = Column(String(255))
-    content = Column(Text)  # Изменил на Text для длинных постов
+    content = Column(Text)
 
     is_public = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -84,8 +84,8 @@ class Tender(Base):
     __tablename__ = "tenders"
 
     id = Column(Integer, primary_key=True, index=True)
-    eis_id = Column(String(100), unique=True, index=True)  # ID из URL или системы
-    registry_number = Column(String(100), index=True)  # Реестровый номер
+    eis_id = Column(String(100), unique=True, index=True)
+    registry_number = Column(String(100), index=True)
 
     title = Column(String(2000))
     description = Column(Text)
