@@ -11,5 +11,7 @@ pydantic[email]
 asyncpg
 python-multipart
 bs4
+
+yarl
 # curl_cff
 # lxml
