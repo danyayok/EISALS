@@ -25,8 +25,17 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
+    kpp: Optional[str] = Field(default=None, pattern=KPP_PATTERN)  # Добавлено
     password: str = Field(..., min_length=8, max_length=128)
     phone: Optional[str] = Field(default=None, pattern=PHONE_PATTERN)
+
+    @field_validator("kpp")
+    @classmethod
+    def validate_kpp_for_ul(cls, v, info):
+        inn = info.data.get("inn")
+        if inn and len(inn) == 10 and not v:
+            raise ValueError("Для юридических лиц (ИНН 10 цифр) КПП обязателен")
+        return v
 
     @field_validator("password")
     @classmethod
@@ -46,7 +55,7 @@ class UserCreate(UserBase):
 
 class UserLogin(BaseModel):
     inn: str = Field(..., pattern=INN_PATTERN)
-    kpp: Optional[str] = Field(..., pattern=KPP_PATTERN)
+    kpp: Optional[str] = Field(default=None, pattern=KPP_PATTERN)
     password: str = Field(..., min_length=8, max_length=128)
 
 
@@ -93,7 +102,7 @@ class TenderResponse(TenderBase):
 
 
 class TenderFilters(BaseModel):
-    okpd2_codes: Optional[List[str]] = None
+    okpd2_codes: Optional[List[str]] = Field(default=None, description="Список кодов ОКПД2")
     regions: Optional[List[str]] = None
     min_price: Optional[Decimal] = Field(None, ge=0)
     max_price: Optional[Decimal] = None
