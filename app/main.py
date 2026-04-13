@@ -1,3 +1,5 @@
+import asyncio
+
 import uvicorn
 
 from fastapi import FastAPI, Request
@@ -10,6 +12,7 @@ from contextlib import asynccontextmanager
 from starlette.responses import JSONResponse
 
 from app.core.database import engine, Base
+from app.core.tasks import hourly_parser
 # from app.database import engine, Base
 from app.routers.v1 import pages, auth #, profile, tenders, analytics
 from app.core.config import settings
@@ -30,10 +33,16 @@ async def lifespan(app: FastAPI):
         await conn.run_sync(Base.metadata.create_all)
 
     logger.info("Запуск парсера ЕИС...")
+    task = asyncio.create_task(hourly_parser())
     # сюда закидывать всякие задачки и прочее
 
 
     yield
+    task.cancel()
+    try:
+        await task
+    except asyncio.CancelledError:
+        print("Фоновая задача остановлена")
 
     logger.info("Остановка приложения...")
 
