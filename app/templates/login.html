@@ -31,9 +31,22 @@
                     maxlength="12"
                     pattern="^(\d{10}|\d{12})$"
                     inputmode="numeric"
-                    autocomplete="username"
                     placeholder="10 или 12 цифр"
-                    class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 focus:bg-white/10 transition-all placeholder:text-white/10 font-mono"
+                    class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono"
+                />
+            </div>
+
+            <div id="kpp-block" class="flex flex-col gap-[10px] transition-all duration-500">
+                <label class="text-[12px] uppercase tracking-[0.3em] font-bold text-white/30 ml-3">КПП (только для ЮЛ)</label>
+                <input
+                    type="text"
+                    id="kpp"
+                    name="kpp"
+                    maxlength="9"
+                    pattern="^\d{9}$"
+                    inputmode="numeric"
+                    placeholder="9 цифр"
+                    class="w-full px-[25px] py-[15px] text-[22px] border-[4px] border-white rounded-2xl bg-white/5 outline-none focus:border-blue-400 transition-all font-mono"
                 />
             </div>
 

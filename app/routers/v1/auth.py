@@ -43,7 +43,7 @@ async def register_user(
     except ValidationError:
         raise HTTPException(status_code=422, detail="Некорректные данные регистрации")
 
-    existing_user = await crud.get_user_by_inn(db, inn=user_create_data.inn)
+    existing_user = await crud.get_user_by_inn(db, inn=user_create_data.inn, kpp=user_create_data.kpp)
     if existing_user:
         raise HTTPException(status_code=400, detail="Пользователь с таким ИНН уже существует")
 
@@ -79,7 +79,7 @@ async def login(
     except ValidationError:
         raise HTTPException(status_code=422, detail="Некорректный формат ИНН или пароля")
 
-    user = await crud.authenticate_user(db, inn=login_data.inn, password=login_data.password)
+    user = await crud.authenticate_user(db, inn=login_data.inn, password=login_data.password, kpp=login_data.kpp)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный ИНН или пароль")
 

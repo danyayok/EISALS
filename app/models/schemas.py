@@ -5,6 +5,7 @@ from typing import List, Optional
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 INN_PATTERN = r"^(\d{10}|\d{12})$"
+KPP_PATTERN = r"\b\d{9}\b"
 PHONE_PATTERN = r"^7\d{10}$"
 
 
@@ -45,6 +46,7 @@ class UserCreate(UserBase):
 
 class UserLogin(BaseModel):
     inn: str = Field(..., pattern=INN_PATTERN)
+    kpp: Optional[str] = Field(..., pattern=KPP_PATTERN)
     password: str = Field(..., min_length=8, max_length=128)
 
 
