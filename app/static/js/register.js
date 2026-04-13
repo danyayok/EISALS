@@ -1,113 +1,3 @@
-function showToast(message, type = 'error', duration = 4000) {
-    const config = {
-        error: { icon: '✕', color: '#ef4444' },
-        success: { icon: '✓', color: '#3b82f6' },
-        warning: { icon: '!', color: '#facc15' }
-    };
-
-    const style = config[type] || config.error;
-
-    // контейнер (создаётся один раз)
-    let container = document.getElementById('toast-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'toast-container';
-        Object.assign(container.style, {
-            position: 'fixed',
-            bottom: '30px',
-            right: '30px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            zIndex: 99999
-        });
-        document.body.appendChild(container);
-    }
-
-    const toast = document.createElement('div');
-
-    Object.assign(toast.style, {
-        width: '360px',
-        background: '#070F2B',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: '18px',
-        boxShadow: `0 20px 60px ${style.color}33`,
-        overflow: 'hidden',
-        cursor: 'pointer',
-        transform: 'translateX(120%)',
-        opacity: '0',
-        transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)'
-    });
-
-    toast.innerHTML = `
-        <div style="display:flex; gap:12px; align-items:center; padding:14px 16px;">
-            <div style="
-                width:42px;height:42px;
-                display:flex;align-items:center;justify-content:center;
-                border-radius:12px;
-                background:rgba(255,255,255,0.03);
-                border:1px solid rgba(255,255,255,0.06);
-                flex-shrink:0;
-            ">
-                <span style="color:${style.color}; font-size:18px; font-weight:900;">
-                    ${style.icon}
-                </span>
-            </div>
-
-            <div style="flex:1; min-width:0;">
-                <div style="
-                    font-size:11px;
-                    letter-spacing:0.25em;
-                    opacity:0.4;
-                    text-transform:uppercase;
-                    font-family:monospace;
-                    margin-bottom:4px;
-                ">System</div>
-
-                <div style="
-                    font-size:15px;
-                    font-weight:600;
-                    color:white;
-                    line-height:1.2;
-                ">${message}</div>
-            </div>
-        </div>
-
-        <div style="height:3px; width:100%; background:rgba(255,255,255,0.06);">
-            <div style="
-                height:100%;
-                width:100%;
-                background:${style.color};
-                transition: width ${duration}ms linear;
-            "></div>
-        </div>
-    `;
-
-    const progress = toast.querySelector('div div div');
-
-    container.appendChild(toast);
-
-    requestAnimationFrame(() => {
-        toast.style.transform = 'translateX(0)';
-        toast.style.opacity = '1';
-        if (progress) progress.style.width = '0%';
-    });
-
-    const remove = () => {
-        toast.style.transform = 'translateX(120%)';
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 350);
-    };
-
-    const timer = setTimeout(remove, duration);
-
-    toast.onclick = () => {
-        clearTimeout(timer);
-        remove();
-    };
-}
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const regForm = document.getElementById('reg-form');
     if (!regForm) return;
@@ -132,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const data = await response.json();
             if (response.ok) {
-                showToast('Аккаунт создан!', 'success');
-                setTimeout(() => window.location.href = '/feed', 1000);
+                showToast('Регистрация успешна!', 'success');
+                setTimeout(() => window.location.href = '/feed', 1500);
             } else {
                 showToast(data.detail || 'Ошибка регистрации', 'warning');
             }
@@ -280,3 +170,112 @@ function validate() {
     pass.addEventListener('input', validate);
     confirmPass.addEventListener('input', validate);
 });
+
+function showToast(message, type = 'error', duration = 4000) {
+    const config = {
+        error: { icon: '✕', color: '#ef4444' },
+        success: { icon: '✓', color: '#3b82f6' },
+        warning: { icon: '!', color: '#facc15' }
+    };
+
+    const style = config[type] || config.error;
+
+    // контейнер (создаётся один раз)
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        Object.assign(container.style, {
+            position: 'fixed',
+            bottom: '30px',
+            right: '30px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            zIndex: 99999
+        });
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+
+    Object.assign(toast.style, {
+        width: '360px',
+        background: '#070F2B',
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: '18px',
+        boxShadow: `0 20px 60px ${style.color}33`,
+        overflow: 'hidden',
+        cursor: 'pointer',
+        transform: 'translateX(120%)',
+        opacity: '0',
+        transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)'
+    });
+
+    toast.innerHTML = `
+        <div style="display:flex; gap:12px; align-items:center; padding:14px 16px;">
+            <div style="
+                width:42px;height:42px;
+                display:flex;align-items:center;justify-content:center;
+                border-radius:12px;
+                background:rgba(255,255,255,0.03);
+                border:1px solid rgba(255,255,255,0.06);
+                flex-shrink:0;
+            ">
+                <span style="color:${style.color}; font-size:18px; font-weight:900;">
+                    ${style.icon}
+                </span>
+            </div>
+
+            <div style="flex:1; min-width:0;">
+                <div style="
+                    font-size:11px;
+                    letter-spacing:0.25em;
+                    opacity:0.4;
+                    text-transform:uppercase;
+                    font-family:monospace;
+                    margin-bottom:4px;
+                ">System</div>
+
+                <div style="
+                    font-size:15px;
+                    font-weight:600;
+                    color:white;
+                    line-height:1.2;
+                ">${message}</div>
+            </div>
+        </div>
+
+        <div style="height:3px; width:100%; background:rgba(255,255,255,0.06);">
+            <div style="
+                height:100%;
+                width:100%;
+                background:${style.color};
+                transition: width ${duration}ms linear;
+            "></div>
+        </div>
+    `;
+
+    const progress = toast.querySelector('div div div');
+
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+        toast.style.transform = 'translateX(0)';
+        toast.style.opacity = '1';
+        if (progress) progress.style.width = '0%';
+    });
+
+    const remove = () => {
+        toast.style.transform = 'translateX(120%)';
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 350);
+    };
+
+    const timer = setTimeout(remove, duration);
+
+    toast.onclick = () => {
+        clearTimeout(timer);
+        remove();
+    };
+}

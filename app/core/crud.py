@@ -7,7 +7,7 @@ from sqlalchemy.orm import selectinload
 from app.models import models, schemas
 from app.services.auth import get_password_hash, verify_password
 
-async def get_user_by_inn(db: AsyncSession, inn: str, kpp: str) -> Optional[models.User]:
+async def get_user_by_inn(db: AsyncSession, inn: str, kpp: Optional[str] = None) -> Optional[models.User]:
     filters = [models.User.inn == inn]
     if kpp:
         filters.append(models.User.kpp == kpp)
