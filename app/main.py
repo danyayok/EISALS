@@ -28,7 +28,10 @@ async def lifespan(app: FastAPI):
         await conn.run_sync(Base.metadata.create_all)
 
     logger.info("Первичная загрузка тендеров ЕИС...")
-    await collect_tenders_once(pages=2)
+    try:
+        await collect_tenders_once(pages=2)
+    except Exception as exc:
+        logger.exception("Первичная загрузка тендеров пропущена из-за ошибки: %s", exc)
 
     logger.info("Запуск фонового парсера ЕИС...")
     task = asyncio.create_task(hourly_parser())
