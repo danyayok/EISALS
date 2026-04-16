@@ -1,5 +1,3 @@
-from typing import Annotated
-
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -25,6 +23,6 @@ async def search_tenders(
 @router.get("/recommended")
 async def get_recommended_tenders(
         db: AsyncSession = Depends(get_db),
-        current_user: Annotated[User, Depends(get_current_user)] = None,
+        current_user: User = Depends(get_current_user),
 ):
     return await crud.get_recommended_tenders_for_user(db, current_user)
