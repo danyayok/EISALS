@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any
 
 from sqlalchemy import func
@@ -12,6 +12,22 @@ def _as_datetime(value: Any) -> datetime | None:
     if isinstance(value, datetime):
         return value
     return None
+
+
+def _make_json_safe(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {key: _make_json_safe(val) for key, val in value.items()}
+    if isinstance(value, list):
+        return [_make_json_safe(item) for item in value]
+    if isinstance(value, tuple):
+        return [_make_json_safe(item) for item in value]
+    if isinstance(value, set):
+        return [_make_json_safe(item) for item in value]
+    if isinstance(value, datetime):
+        return value.isoformat()
+    if isinstance(value, date):
+        return value.isoformat()
+    return value
 
 
 async def upsert_companies_bulk(db: AsyncSession, companies: list[dict[str, Any]]) -> None:
@@ -81,7 +97,7 @@ async def upsert_tenders_bulk(db: AsyncSession, items: list[dict[str, Any]]) -> 
                 "region": item.get("region"),
                 "procedure_type": item.get("procedure_type"),
                 "status": "active",
-                "raw_data": item,
+                "raw_data": _make_json_safe(item),
             }
         )
 
