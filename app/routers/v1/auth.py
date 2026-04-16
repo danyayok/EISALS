@@ -6,24 +6,25 @@ from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import JSONResponse
 
-from app.models import schemas
 from app.core import crud
-from app.services import auth
 from app.core.config import settings
 from app.core.database import get_db
+from app.models import schemas
+from app.services import auth
+from app.services.parser import EISParser
 
 router = APIRouter(prefix="/api", tags=["Auth"])
 
 
 @router.post("/register")
 async def register_user(
-    inn: str = Form(...),
-    kpp: str = Form(...),
-    email: str = Form(...),
-    password: str = Form(...),
-    phone: str = Form(...),
-    agree_conf: bool = Form(False),
-    db: AsyncSession = Depends(get_db),
+        inn: str = Form(...),
+        kpp: str = Form(...),
+        email: str = Form(...),
+        password: str = Form(...),
+        phone: str = Form(...),
+        agree_conf: bool = Form(False),
+        db: AsyncSession = Depends(get_db),
 ):
     if not agree_conf:
         raise HTTPException(status_code=400, detail="Необходимо согласие с правилами")
@@ -52,12 +53,14 @@ async def register_user(
         new_user.phone_number = user_create_data.phone
         await db.commit()
 
+    await crud.sync_company_profile_from_eis(db, new_user, EISParser())
+
     access_token = auth.create_access_token(
         data={"sub": new_user.inn},
         expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     )
 
-    response = JSONResponse(
+    return JSONResponse(
         {
             "status": "success",
             "user_id": new_user.id,
@@ -65,23 +68,25 @@ async def register_user(
             "token_type": "bearer",
         }
     )
-    return response
 
 
 @router.post("/login", response_model=schemas.Token)
 async def login(
-    inn: str = Form(...),
-    password: str = Form(...),
-    db: AsyncSession = Depends(get_db),
+        inn: str = Form(...),
+        password: str = Form(...),
+        kpp: str | None = Form(default=None),
+        db: AsyncSession = Depends(get_db),
 ):
     try:
-        login_data = schemas.UserLogin(inn=inn, password=password)
+        login_data = schemas.UserLogin(inn=inn, password=password, kpp=kpp)
     except ValidationError:
         raise HTTPException(status_code=422, detail="Некорректный формат ИНН или пароля")
 
     user = await crud.authenticate_user(db, inn=login_data.inn, password=login_data.password, kpp=login_data.kpp)
     if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный ИНН или пароль")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный ИНН/КПП или пароль")
+
+    await crud.sync_company_profile_from_eis(db, user, EISParser())
 
     access_token = auth.create_access_token(data={"sub": user.inn})
     response = JSONResponse({"access_token": access_token, "token_type": "bearer"})
