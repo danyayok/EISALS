@@ -1,4 +1,6 @@
+import json
 from datetime import date, datetime
+from decimal import Decimal
 from typing import Any
 
 from sqlalchemy import func
@@ -16,7 +18,7 @@ def _as_datetime(value: Any) -> datetime | None:
 
 def _make_json_safe(value: Any) -> Any:
     if isinstance(value, dict):
-        return {key: _make_json_safe(val) for key, val in value.items()}
+        return {str(key): _make_json_safe(val) for key, val in value.items()}
     if isinstance(value, list):
         return [_make_json_safe(item) for item in value]
     if isinstance(value, tuple):
@@ -27,7 +29,18 @@ def _make_json_safe(value: Any) -> Any:
         return value.isoformat()
     if isinstance(value, date):
         return value.isoformat()
-    return value
+    if isinstance(value, Decimal):
+        return float(value)
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="ignore")
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    return str(value)
+
+
+def _ensure_json_document(value: Any) -> Any:
+    safe_value = _make_json_safe(value)
+    return json.loads(json.dumps(safe_value, ensure_ascii=False))
 
 
 async def upsert_companies_bulk(db: AsyncSession, companies: list[dict[str, Any]]) -> None:
@@ -97,7 +110,7 @@ async def upsert_tenders_bulk(db: AsyncSession, items: list[dict[str, Any]]) -> 
                 "region": item.get("region"),
                 "procedure_type": item.get("procedure_type"),
                 "status": "active",
-                "raw_data": _make_json_safe(item),
+                "raw_data": _ensure_json_document(item),
             }
         )
 
