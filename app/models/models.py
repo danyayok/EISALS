@@ -84,8 +84,8 @@ class Tender(Base):
     __tablename__ = "tenders"
 
     id = Column(Integer, primary_key=True, index=True)
-    eis_id = Column(String(100), unique=True, index=True)
-    registry_number = Column(String(100), index=True)
+    eis_id = Column(String, unique=True, index=True)
+    registry_number = Column(String, index=True)
 
     title = Column(String(2000))
     description = Column(Text)
@@ -97,7 +97,7 @@ class Tender(Base):
 
     okpd2_codes = Column(ARRAY(String))
     okved_codes = Column(ARRAY(String))
-    region = Column(String(100))
+    region = Column(String)
 
     nmck = Column(Float)  # Начальная цена
     final_price = Column(Float)  # Цена контракта
@@ -115,7 +115,7 @@ class Tender(Base):
     submission_deadline = Column(DateTime)
     execution_period = Column(String(1000))
 
-    status = Column(String(100))
+    status = Column(String)
     is_dumping = Column(Boolean, default=False)
 
     # Аналитические метрики
