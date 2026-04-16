@@ -10,24 +10,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.models import Tender, User
 
 
-def _as_datetime(value: Any) -> datetime | None:
-    if isinstance(value, datetime):
-        return value
-    return None
-
-
 def _make_json_safe(value: Any) -> Any:
+    """Рекурсивно преобразует данные в типы, пригодные для JSON-полей."""
     if isinstance(value, dict):
         return {str(key): _make_json_safe(val) for key, val in value.items()}
-    if isinstance(value, list):
+    if isinstance(value, (list, tuple, set)):
         return [_make_json_safe(item) for item in value]
-    if isinstance(value, tuple):
-        return [_make_json_safe(item) for item in value]
-    if isinstance(value, set):
-        return [_make_json_safe(item) for item in value]
-    if isinstance(value, datetime):
-        return value.isoformat()
-    if isinstance(value, date):
+    if isinstance(value, (datetime, date)):
         return value.isoformat()
     if isinstance(value, Decimal):
         return float(value)
@@ -38,21 +27,34 @@ def _make_json_safe(value: Any) -> Any:
     return str(value)
 
 
-def _ensure_json_document(value: Any) -> Any:
-    safe_value = _make_json_safe(value)
-    return json.loads(json.dumps(safe_value, ensure_ascii=False))
+def _parse_to_datetime(value: Any) -> datetime | None:
+    """Преобразует строку или объект в datetime для драйвера БД."""
+    if not value:
+        return None
+    if isinstance(value, datetime):
+        return value
+    if isinstance(value, date):
+        return datetime.combine(value, datetime.min.time())
+    if isinstance(value, str):
+        try:
+            # Убираем возможные пробелы по краям
+            return datetime.fromisoformat(value.strip())
+        except ValueError:
+            return None
+    return None
 
 
 async def upsert_companies_bulk(db: AsyncSession, companies: list[dict[str, Any]]) -> None:
     values: list[dict[str, Any]] = []
     for company in companies:
-        if not company.get("inn"):
+        inn = company.get("inn")
+        if not inn:
             continue
 
         values.append(
             {
-                "inn": company.get("inn"),
-                "kpp": company.get("kpp"),
+                "inn": str(inn),
+                "kpp": str(company.get("kpp")) if company.get("kpp") else None,
                 "company_name": company.get("name"),
                 "is_active": True,
             }
@@ -78,7 +80,8 @@ async def upsert_tenders_bulk(db: AsyncSession, items: list[dict[str, Any]]) -> 
     companies: list[dict[str, Any]] = []
 
     for item in items:
-        if not item.get("id"):
+        eis_id = item.get("id")
+        if not eis_id:
             continue
 
         customer_inn = item.get("customer_inn")
@@ -87,32 +90,43 @@ async def upsert_tenders_bulk(db: AsyncSession, items: list[dict[str, Any]]) -> 
         if customer_inn:
             companies.append({"inn": customer_inn, "name": customer_name, "kpp": None})
 
+        # Безопасный расчет снижения цены
         price = item.get("price")
         final_price = item.get("final_price")
         reduction = None
-        if price and final_price and price > 0:
-            reduction = round((price - final_price) / price * 100, 2)
+        try:
+            if price is not None and final_price is not None and float(price) > 0:
+                reduction = round((float(price) - float(final_price)) / float(price) * 100, 2)
+        except (TypeError, ValueError):
+            pass
 
-        tender_values.append(
-            {
-                "eis_id": item.get("id"),
-                "registry_number": item.get("registry_number") or item.get("id"),
-                "title": item.get("object"),
-                "description": item.get("object"),
-                "customer_name": customer_name,
-                "customer_inn": customer_inn,
-                "nmck": price,
-                "final_price": final_price,
-                "price_reduction": reduction,
-                "publication_date": _as_datetime(item.get("publication_date")),
-                "submission_deadline": _as_datetime(item.get("submission_deadline")),
-                "okpd2_codes": [item.get("okpd2_code")] if item.get("okpd2_code") else None,
-                "region": item.get("region"),
-                "procedure_type": item.get("procedure_type"),
-                "status": "active",
-                "raw_data": _ensure_json_document(item),
-            }
-        )
+        # Формируем запись.
+        # ВАЖНО: В корень словаря кладем datetime объекты для asyncpg,
+        # а в raw_data — очищенный JSON.
+        entry = {
+            "eis_id": str(eis_id),
+            "registry_number": str(item.get("registry_number") or eis_id),
+            "title": item.get("object"),
+            "description": item.get("object"),
+            "customer_name": customer_name,
+            "customer_inn": str(customer_inn) if customer_inn else None,
+            "nmck": float(price) if price is not None else None,
+            "final_price": float(final_price) if final_price is not None else None,
+            "price_reduction": reduction,
+
+            # Конвертация для TIMESTAMP в БД
+            "publication_date": _parse_to_datetime(item.get("publication_date")),
+            "submission_deadline": _parse_to_datetime(item.get("submission_deadline")),
+
+            "okpd2_codes": [item.get("okpd2_code")] if item.get("okpd2_code") else None,
+            "region": item.get("region"),
+            "procedure_type": item.get("procedure_type"),
+            "status": "active",
+
+            # Рекурсивная очистка для JSON поля
+            "raw_data": _make_json_safe(item),
+        }
+        tender_values.append(entry)
 
     if companies:
         await upsert_companies_bulk(db, companies)
