@@ -124,7 +124,7 @@ class EISParser:
 async def main():
     parser = EISParser()
     company = await parser.get_company_info("7707083893")
-
+    tenders_all_url = "/epz/order/extendedsearch/results.html?searchString=&morphology=on&search-filter=%D0%94%D0%B0%D1%82%D0%B5+%D0%BE%D0%B1%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F&pageNumber=2&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&savedSearchSettingsIdHidden=&sortBy=UPDATE_DATE&fz44=on&fz223=on&af=on&ca=on&pc=on&pa=on&placingWayList=&selectedLaws=&priceFromGeneral=&priceFromGWS=&priceFromUnitGWS=&priceToGeneral=&priceToGWS=&priceToUnitGWS=&currencyIdGeneral=-1&publishDateFrom=&publishDateTo=&applSubmissionCloseDateFrom=&applSubmissionCloseDateTo=&customerIdOrg=&customerFz94id=&customerTitle=&okpd2Ids=&okpd2IdsCodes="
     if company:
         print(f"--- {company['name']} ---")
         for type_key, link in company['links'].items():
@@ -132,7 +132,7 @@ async def main():
             items = await parser.parse_cards(link, pages=1)
             for it in items[:3]:  # Покажем первые 3 для теста
                 print(f"[{it['id']}] {it['price']} руб. | {it['object'][:50]}...")
-
-
+    items = await parser.parse_cards(tenders_all_url, pages=1)
+    print(items)
 if __name__ == "__main__":
     asyncio.run(main())
