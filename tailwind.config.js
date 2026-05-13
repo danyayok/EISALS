@@ -5,7 +5,11 @@ module.exports = {
     "./app/**/*.py"
   ],
   theme: {
-    extend: {},
+    extend: {
+        fontFamily: {
+            sans: ['Jost', "Arial", "sans-serif"]
+        }
+    },
   },
   plugins: [],
 }

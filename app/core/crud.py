@@ -11,11 +11,17 @@ from app.services.parser import EISParser
 from app.services.tender_analytics import evaluate_tender_for_user
 
 
-async def get_user_by_inn(db: AsyncSession, inn: str, kpp: Optional[str] = None) -> Optional[models.User]:
-    filters = [models.User.inn == inn]
+async def get_user_by_inn(db: AsyncSession, inn: Optional[str] = None, kpp: Optional[str] = None, user_id: Optional[int] = None) -> Optional[models.User]:
+    filters = []
+    if inn:
+        filters.append(models.User.inn == inn)
     if kpp:
         filters.append(models.User.kpp == kpp)
+    if user_id:
+        filters.append((models.User.id == user_id))
 
+    if not filters:
+        return None
     query = select(models.User).options(selectinload(models.User.profile)).where(and_(*filters))
     result = await db.execute(query)
     return result.scalar_one_or_none()
@@ -55,6 +61,7 @@ async def sync_company_profile_from_eis(db: AsyncSession, user: models.User, par
     parser = parser or EISParser()
     company = await parser.get_company_info(user.inn)
     if not company:
+        print("No company")
         return
 
     if company.get("name"):
@@ -62,13 +69,19 @@ async def sync_company_profile_from_eis(db: AsyncSession, user: models.User, par
     if company.get("kpp") and not user.kpp:
         user.kpp = company["kpp"]
 
-    if user.profile is None:
-        user.profile = models.CompanyProfile(user_id=user.id)
+    result = await db.execute(
+        select(models.CompanyProfile).where(models.CompanyProfile.user_id == user.id)
+    )
+    profile = result.scalar_one_or_none()
 
-    user.profile.full_name = company.get("name") or user.profile.full_name
-    user.profile.ogrn = company.get("ogrn") or user.profile.ogrn
-    user.profile.legal_address = company.get("address") or user.profile.legal_address
-    user.profile.updated_at = datetime.now(timezone.utc)
+    if profile is None:
+        profile = models.CompanyProfile(user_id=user.id)
+        db.add(profile)
+
+    profile.full_name = company.get("name") or profile.full_name
+    profile.ogrn = company.get("ogrn") or profile.ogrn
+    profile.legal_address = company.get("address") or profile.legal_address
+    profile.updated_at = datetime.now(timezone.utc)
 
     await db.commit()
 

@@ -13,4 +13,11 @@
     @apply bg-[#070F2B] text-white font-jost;
     margin: 0;
   }
+  @font-face {
+    font-family: 'Jost';
+    src: url('/static/fonts/Jost.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
 }

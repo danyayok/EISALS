@@ -152,6 +152,7 @@ class EISParser:
             "kpp": self._get_text_by_label(card, "КПП"),
             "ogrn": self._get_text_by_label(card, "ОГРН"),
             "address": self._get_text_by_label(card, "Местонахождение"),
+            "date_of_registration": self._get_text_by_label(card, "Дата присвоения ИКО"),
             "fz223_id": fz223_id,
             "fz44_id": fz44_id,
             "links": {},

@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import JSONResponse
 
 from app.core import crud
+from app.core.celery_app import sync_with_eis_task
 from app.core.config import settings
 from app.core.database import get_db
 from app.models import schemas
@@ -52,9 +53,7 @@ async def register_user(
     if user_create_data.phone:
         new_user.phone_number = user_create_data.phone
         await db.commit()
-
-    await crud.sync_company_profile_from_eis(db, new_user, EISParser())
-
+    sync_with_eis_task.delay(new_user.id)
     access_token = auth.create_access_token(
         data={"sub": new_user.inn},
         expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
@@ -68,6 +67,7 @@ async def register_user(
             "token_type": "bearer",
         }
     )
+
 
 
 @router.post("/login", response_model=schemas.Token)
@@ -86,8 +86,7 @@ async def login(
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный ИНН/КПП или пароль")
 
-    await crud.sync_company_profile_from_eis(db, user, EISParser())
-
+    sync_with_eis_task.delay(user.id)
     access_token = auth.create_access_token(data={"sub": user.inn})
     response = JSONResponse({"access_token": access_token, "token_type": "bearer"})
     response.set_cookie(
@@ -105,5 +104,11 @@ async def login(
 @router.post("/logout", status_code=204)
 async def logout() -> Response:
     response = Response(status_code=204)
-    response.delete_cookie("access_token", path="/")
+    response.delete_cookie(
+        key="access_token",
+        path="/",
+        httponly=True,
+        samesite="lax",
+        secure=settings.COOKIE_SECURE
+    )
     return response

@@ -13,9 +13,9 @@ async def collect_tenders_once(pages: int = 4) -> int:
     items = await parser.parse_latest_tenders(pages=pages)
     if not items:
         return 0
-
+    unique_items = {item['id']: item for item in items if item['id']}.values()
     async with AsyncSessionLocal() as db:
-        saved = await upsert_tenders_bulk(db, items)
+        saved = await upsert_tenders_bulk(db, list(unique_items))
 
     logger.info("Saved %s tenders from EIS", saved)
     return saved

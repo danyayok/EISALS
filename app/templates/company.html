@@ -17,7 +17,7 @@
                     <img src="{{ url_for('static', path='images/filler.png') }}" class="w-32 h-32 rounded-full border-4 border-white/10 relative shadow-2xl">
                 </div>
                 <div>
-                    <h1 class="text-[42px] font-bold leading-tight tracking-tight">ПАО «Сбербанк России»<br>Центральный офис</h1>
+                    <h1 class="text-[42px] font-bold leading-tight tracking-tight">{{ current_user.inn }}<br>{{ current_user.profile.legal_address}}</h1>
                     <div class="flex gap-4 mt-4">
                         <span class="bg-green-500/10 text-green-400 px-4 py-1.5 rounded-xl border border-green-500/20 font-bold text-sm uppercase tracking-widest">Активен</span>
                         <span class="bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-xl border border-blue-500/20 font-bold text-sm uppercase tracking-widest">Системообразующая организация</span>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="flex flex-col gap-1">
                     <span class="text-white/30 text-xs uppercase tracking-[0.2em] font-black">Юридический адрес</span>
-                    <span class="text-[18px] text-white/80">117312, г. Москва, ул. Вавилова, д. 19</span>
+                    <span class="text-[18px] text-white/80">{{ current_user.profile.legal_address}}</span>
                 </div>
                 <div class="flex flex-col gap-1">
                     <span class="text-white/30 text-xs uppercase tracking-[0.2em] font-black">Дата регистрации</span>
